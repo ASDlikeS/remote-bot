@@ -18,7 +18,7 @@ const cryptoWallets = [
     'TETHER: <pre>0xcfF0e400A376D7aFADb32b1F75F4b45e893557c8</pre>',
 ];
 
-export const startText = `Hello my dear friend, *{name}*\\!\n
+export const startText = `*Hello my dear friend, {name}*\\!\n
 🔥I'm your *__REMOTE CONTROLLING SYSTEM BOT__\\!*🔥\n
 
 ✅I can manage your Desktop remote, with having no problems\\!\n
@@ -43,9 +43,20 @@ Actually you gonna get more awesome stuff for remote controlling your PC.\n
 That will be all functional from powershell and automatically binding your device to telegram bot\n
 🔥2️⃣ Secondly, you can get access to my private channel where I share useful resources for developers like tutorials, articles, etc.\n
 🔥🚩 Finally, I'll go to a shop, for buying some edible suff for my stomach
+
+<blockquote>❕ Anyway you can get 🌟 <b>/premium</b> 🌟 by helping the project by contributing to the code.
+In order to find out the details you need to click on /contribution
+I will be very grateful for your help😅).</blockquote>
 \n---BACK /help`;
 
-export const helpMessage = `If you have any questions, please contact me at\n🚀🚀🚀 ||[ASD](https://t.me/React_Rogue)|| 🚀🚀🚀 \n\n*Here are a list of commands:*\n/help \\- Show this help message\n/start \\- Start bot with all information about the bot\n/premium \\- Check your status now\n/info\\_about\\_premium \\- Info about premium status`;
+export const helpMessage = `If you have any questions, please contact me at
+🚀🚀🚀 ||[ASD](https://t.me/React_Rogue)|| 🚀🚀🚀 \n
+// *Here are a list of commands:*
+// /help \\- Show this help message
+// /start \\- Start bot with all information about the bot
+// /premium \\- Check your status now
+// /info\\_about\\_premium \\- Info about premium status
+// /contribution \\- Contribution to the project for getting *FREE PREMIUM STATUS*`;
 
 export const errorRegistration = `<b>🚫To my great regret. You can't use the bot because, your data is not registered in database. Please contact with me. I am always open to reports🚫<a href="https://t.me/React_Rogue">DEVELOPER ASD</a></b>`;
 
@@ -53,4 +64,16 @@ export const userIsPremium = (id: number) => {
     const time = remainingTime(id);
     return `✅<i>Your account has gotten premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;
 };
-export const userIsNotPremium = `❌<i>You doesn't have premium status</i>❌\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;
+export const userIsNotPremium = `❌<i>You doesn't have premium status</i>❌\n\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;
+
+export const contribution = `<b>✌️ Contributions is a great way to use all bot functionality for free.</b>\n
+✨<strong>YOU WILL BE VERY USEFUL IF YOU:</strong>\n
+<blockquote>
+🔥<code>If you know TypeScript</code>
+🔥<code>Know how to work with Telegraf library</code>
+🔥<code>Have experience with NodeJS</code>
+🔥<code>Are familiar with Git and GitHub</code>
+🔥<code>Know that you can contribute to the development of the project</code>\n
+</blockquote>
+<u>⭐Waiting for you in my Contributors on my github⭐</u>
+<a href="https://github.com/ASDlikeS/remote-bot">WELCOME TO MY GITHUB REPOSITORY</a>`;

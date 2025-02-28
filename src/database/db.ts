@@ -1,7 +1,4 @@
 import { Database } from 'bun:sqlite';
-import { ADMIN_ID } from '../config/env';
-import { errorRegistration } from '../texts/textForCommands';
-import { isJSDocUnknownTag, transform } from 'typescript';
 import { Context } from 'telegraf';
 
 const db = new Database('users.sqlite', { create: true });
@@ -30,7 +27,11 @@ export const registerUser = (ctx: Context): void => {
     const id: number = ctx.from?.id as number;
     const userName: string = ctx.from?.username as string;
     const firstName: string = ctx.from?.first_name as string;
-    if (typeof (id || userName || firstName) === 'undefined') {
+    if (
+        typeof id === 'undefined' ||
+        typeof userName === 'undefined' ||
+        typeof firstName === 'undefined'
+    ) {
         throw new Error(`Sorry Dude! ${firstName}`); // TODO: trying to catch incorrect datauser's
     } else {
         const infAboutUser = db.prepare(`SELECT * FROM users WHERE telegram_id=?`).get(id);

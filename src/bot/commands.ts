@@ -1,75 +1,69 @@
 import { Telegraf } from 'telegraf';
 import { checkGrantingRight } from './conditions/checkGrantingRight';
 import { checkIsPremium } from './conditions/checkPremium';
+import { handleError } from './conditions/handleError';
+import { setPromoteUser, setDemoteUser, setTotalTimeOfPromotion } from '../database/db';
 import {
     startText,
     infoAboutPrem,
     helpMessage,
-    errorRegistration,
     userIsPremium,
     userIsNotPremium,
+    contribution,
 } from '../texts/textForCommands';
-import {
-    registerUser,
-    setPromoteUser,
-    setDemoteUser,
-    setTotalTimeOfPromotion,
-} from '../database/db';
 
 export function setupCommands(bot: Telegraf) {
+    //---------------------------------------------------------------------------------------------------------------------
+    // Commands for All Users
+    //---------------------------------------------------------------------------------------------------------------------
     bot.start((ctx) => {
         try {
-            registerUser(ctx); // Register new user in DB
             ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
             const isPremium = checkIsPremium(ctx.from.id);
             ctx.reply(isPremium, { parse_mode: 'HTML' });
         } catch (error) {
-            ctx.reply(error + '\n\n' + errorRegistration, { parse_mode: 'HTML' });
-            console.log(
-                `id:${ctx.from.id}\nFullName:${ctx.from.first_name}\nTelegram NickName: ${ctx.from.username} has gotten some Error`,
-            );
+            handleError(ctx, error as string);
         }
     });
 
     bot.command('help', (ctx) => {
         try {
-            registerUser(ctx); // Register new user in DB
             ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message
         } catch (error) {
-            ctx.reply(error + '\n\n' + errorRegistration, { parse_mode: 'HTML' });
-            console.log(
-                `id:${ctx.from.id}\nFullName:${ctx.from.first_name}\nTelegram NickName: ${ctx.from.username} has gotten some Error`,
-            );
+            handleError(ctx, error as string);
         }
     });
 
     bot.command('premium', (ctx) => {
         try {
-            registerUser(ctx);
             const isPremium = checkIsPremium(ctx.from.id);
             ctx.reply(isPremium, { parse_mode: 'HTML' });
         } catch (error) {
-            ctx.reply(error + '\n\n' + errorRegistration, { parse_mode: 'HTML' });
-            console.log(
-                `id:${ctx.from.id}\nFullName:${ctx.from.first_name}\nTelegram NickName: ${ctx.from.username} has gotten some Error`,
-            );
+            handleError(ctx, error as string);
         }
     });
 
     bot.command('info_about_premium', (ctx) => {
         try {
-            registerUser(ctx);
             ctx.reply(infoAboutPrem, { parse_mode: 'HTML' });
         } catch (error) {
-            ctx.reply(error + '\n\n' + errorRegistration, { parse_mode: 'HTML' });
-            console.log(
-                `id:${ctx.from.id}\nFullName:${ctx.from.first_name}\nTelegram NickName: ${ctx.from.username} has gotten some Error`,
-            );
+            handleError(ctx, error as string);
         }
     });
 
+    bot.command('contribution', (ctx) => {
+        try {
+            ctx.reply(contribution, { parse_mode: 'HTML' });
+        } catch (error) {
+            handleError(ctx, error as string);
+        }
+    });
+
+    //---------------------------------------------------------------------------------------------------------------------
+    // Commands for Admins only
+    //---------------------------------------------------------------------------------------------------------------------
     bot.command('promote_usr', (ctx) => {
         try {
             const gottenUserInfo = checkGrantingRight(ctx.from.id, ctx.message.text);
