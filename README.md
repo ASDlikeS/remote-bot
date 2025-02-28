@@ -6,12 +6,12 @@
 
 ## 🌟 What is Remote-bot?
 
-(![TelegramBot](image.png))
+![TelegramBot](image.png)
 Remote-bot transforms your Telegram chat into a command center for your PC! Control your computer from anywhere in the world with simple text commands. Whether you're on vacation or just too comfortable on your couch, remote-bot has you covered.
 
 ## 😰 Bot Commands During Development
 
-![Bot during development](https://i.imgur.com/60z7j9Q.png)
+![DevelopinStage](https://media0.giphy.com/media/Mah9dFWo1WZX0WM62Q/giphy.gif?cid=6c09b952l7elw4ti8b8zajeer35s0vetfc94a49eik81b6d4&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
 ## ✨ Features That Make remote-bot Awesome
 
