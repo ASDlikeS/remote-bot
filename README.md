@@ -1,90 +1,108 @@
-<<<<<<< HEAD
-# RemoteBot – Your Telegram-Powered PC Remote Control 🤖💻
+# Remote-bot 🤖 - Your Telegram-Powered PC Remote Control
 
-Welcome to **RemoteBot**, a sleek and powerful Telegram bot that puts your PC’s control at your fingertips—anytime, anywhere. With secure user management, real-time subscription tracking, and a modular design, RemoteBot is your ultimate tool for remote PC mastery.
+![Remote Control](https://img.shields.io/badge/Remote-Control-blue?style=for-the-badge&logo=telegram)
+![Bun](https://img.shields.io/badge/Powered_by-Bun-black?style=for-the-badge&logo=bun)
+![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
----
+## 🌟 What is Remote-bot?
 
-## Why RemoteBot? 🌟
+(![TelegramBot](image.png))
+Remote-bot transforms your Telegram chat into a command center for your PC! Control your computer from anywhere in the world with simple text commands. Whether you're on vacation or just too comfortable on your couch, remote-bot has you covered.
 
-RemoteBot combines simplicity, security, and functionality into one awesome package. Whether you're executing commands, managing processes, or keeping tabs on your system, this bot does it all through the convenience of Telegram.
+## 😰 Bot Commands During Development
 
-### Key Features ✨
+![Bot during development](https://i.imgur.com/60z7j9Q.png)
 
--   **Full Remote Control:** Run system commands, monitor processes, and manage your PC remotely with ease.
--   **Secure Authentication:** Registers users via unique Telegram IDs for a safe, personalized experience.
--   **Premium Subscriptions:** Tracks subscription statuses with live countdowns—premium access, handled effortlessly.
--   **Smart Middleware:** Automatically checks permissions and adjusts access when subscriptions expire.
--   **SQLite Database:** Stores user data, subscription details, and more with lightweight efficiency (powered by `bun:sqlite`).
--   **Real-Time Updates:** Displays dynamic subscription timers by editing messages—no manual refreshes needed.
--   **Modular Design:** Built to be extensible—tweak or expand features to suit your needs.
+## ✨ Features That Make remote-bot Awesome
 
---- 
+-   🔐 **Secure Authentication** - Only registered users with valid Telegram IDs can access your system
+-   🚀 **Full Remote Control** - Execute system commands, monitor processes, check resources
+-   💎 **Premium Subscription System** - With real-time countdown timers for premium access
+-   ⚙️ **Smart Permission Management** - Automatic access adjustment when subscriptions expire
+-   📊 **Lightweight SQLite Database** - Efficient storage using `bun:sqlite`
+-   🔄 **Live Updates** - Dynamic message editing for subscription status - no spam!
+-   🧩 **Modular Design** - Easily extend with your own commands and features
 
-## Get Started in Minutes 🚀
-
-Ready to take control? Follow these quick steps to set up RemoteBot on your system.
+## 🚀 Get Started in 3... 2... 1...
 
 ### Prerequisites
 
--   [Bun](https://bun.sh/) installed (Node.js alternative for lightning-fast performance).
--   A Telegram account and a bot token from [BotFather](https://t.me/BotFather).
--   Git for cloning the repo.
+-   📦 [Bun](https://bun.sh/) installed (the speedy Node.js alternative)
+-   🤖 Telegram bot token (get it from [@BotFather](https://t.me/botfather))
+-   🐙 Git installed
 
 ### Installation
 
-1. **Clone the Repository:**
+```bash
+# Clone this magnificent repository
+git clone https://github.com/ASDlikeS/remote-bot
 
-    ```bash
-    git clone https://github.com/yourusername/RemoteBot.git
-    cd RemoteBot
+# Enter the magic folder
+cd remote-bot
 
-     Install Dependencies:
-     bash
-    ```
-
+# Install dependencies at warp speed
 bun install
-Configure Your Bot:
+```
 
-    Add your Telegram Bot Token to a .env file:
-    text
+### Configuration 🛠️
 
-    TELEGRAM_BOT_TOKEN=your_bot_token_here
-    Customize database settings (if needed) in the config file.
+Create a `.env` file with your secret ingredients:
 
-Launch the Bot:
-bash
+```
+TELEGRAM_BOT_TOKEN=your_bot_token_here
++
+ADMIN_ID=your_id_from_telegram
+```
 
-    bun run index.ts
+### Launch Your Bot to the Stars 🚀
 
-How to Use It 📱
+```bash
+bun start
+```
 
-    Open Telegram and start a chat with your bot by sending /start.
-    RemoteBot will:
-        Register you as a user.
-        Check your subscription status (premium or free).
-        Show a live timer for premium access (if applicable).
-    Send commands to control your PC—explore the possibilities!
+## 📱 How to Use Remote-bot
 
-Check the bot’s command list (e.g., /help) for all available options.
-Contributing 🤝
+1. **Start a Chat**: Open Telegram and find your bot
+2. **Say Hello**: Send `/start` to register and see your status
+3. **Take Control**: Use commands like:
+    - `/premium` - Check system status
+    - `/info_about_premium` - Run a system command
+    - `/help` - List running processes
+    ***
+4. **ADMIN ONLY**: Commands only available to admins
+    - `/give_usr_time` - Additional time to a user's subscription
+    - `/promote_usr` - Give user premium rights
+    - `/demote_usr` - Revoke user premium rights
+5. **Enjoy Your Remote Control Experience**
 
-Love RemoteBot? Want to make it even better? Contributions are warmly welcomed!
+Watch as your subscription timer updates in real-time! ⏱️
 
-    Report Bugs: Open an issue with details.
-    Suggest Features: Share your ideas via a new issue.
-    Submit Code: Fork the repo, make your changes, and send a pull request.
+## 💻 Command Examples
 
-For big changes, let’s chat first—open an issue to discuss your vision.
-License 📜
+```
+At the design stage...
+```
 
-This project is licensed under the MIT License—free to use, modify, and share.
-Enjoy the Power of RemoteBot! 😎
+## 🤝 Contribute to the Magic
 
-Take command of your PC from anywhere with RemoteBot. Happy coding, and enjoy the freedom of remote control!
+Remote-bot loves new friends and contributors!
 
-Built with ❤️ by yourusername
-=======
-# remote_controll
-RemoteBot is a feature-rich Telegram bot designed to provide secure and efficient remote control of your PC. With an emphasis on robust user management and dynamic subscription handling, this project enables users to manage and control their computers remotely via Telegram commands.
->>>>>>> ae00046419af6bcfc35638715b99f8aaaf3a72ce
+-   🐛 **Found a Bug?** Open an issue with all the juicy details
+-   💡 **Have an Idea?** Share it through a feature request issue
+-   👨‍💻 **Code Wizard?** Fork, code, and send a pull request
+
+## 📝 License
+
+RemoteBot is MIT licensed - free as in freedom! 🦅
+
+## 🙏 Acknowledgements
+
+-   Telegram Bot API for making this magic possible
+-   Bun.js for the speed demons among us
+-   You, for being awesome enough to use RemoteBot
+
+---
+
+![Made with Love](https://img.shields.io/badge/Made_with-Code_&_Love-red?style=for-the-badge&logo=heart)
+
+**Created by [@ASDlikeS](https://github.com/ASDlikeS)** | [Report Bug](https://github.com/ASDlikeS/remote-bot/issues) | [Request Feature](https://github.com/ASDlikeS/remote-bot/issues)
