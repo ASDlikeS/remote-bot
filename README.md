@@ -9,6 +9,10 @@
 ![TelegramBot](image.png)
 Remote-bot transforms your Telegram chat into a command center for your PC! Control your computer from anywhere in the world with simple text commands. Whether you're on vacation or just too comfortable on your couch, remote-bot has you covered.
 
+## This telegran bot:
+
+👉 [@asd_remote_bot](https://t.me/asd_remote_bot)
+
 ## 😰 Bot Commands During Development
 
 ![DevelopinStage](https://media0.giphy.com/media/Mah9dFWo1WZX0WM62Q/giphy.gif?cid=6c09b952l7elw4ti8b8zajeer35s0vetfc94a49eik81b6d4&ep=v1_gifs_search&rid=giphy.gif&ct=g)

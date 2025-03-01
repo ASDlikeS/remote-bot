@@ -120,4 +120,17 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
+
+    bot.command('test', (ctx) => {
+        try {
+            const userAlreadyChecked = checkIsPremium(ctx.from.id);
+            if (userAlreadyChecked.includes('✅')) {
+                ctx.reply(`You can use this command ✅ У тебя есть Премиум статус`);
+            } else {
+                throw new Error(`❌ You don't have a Premium Status ❌ У тебя нет Премиум статуса`);
+            }
+        } catch (error) {
+            ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
 }

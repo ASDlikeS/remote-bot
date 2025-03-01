@@ -1,5 +1,6 @@
 import { Database } from 'bun:sqlite';
 import { Context } from 'telegraf';
+import { errorRegistration } from '../texts/textForCommands';
 
 const db = new Database('users.sqlite', { create: true });
 
@@ -20,20 +21,20 @@ db.exec(`CREATE TABLE IF NOT EXISTS users (
     first_name TEXT,
 	is_premium BOOLEAN DEFAULT FALSE,
     registered_prem_time_ms INTEGER DEFAULT 0,
-    total_time_ms INTEGER DEFAULT 0
+    total_time_ms INTEGER DEFAULT 0,
+    is_banned BOOLEAN DEFAULT FALSE
 );`);
 
 export const registerUser = (ctx: Context): void => {
-    const id: number = ctx.from?.id as number;
-    const userName: string = ctx.from?.username as string;
-    const firstName: string = ctx.from?.first_name as string;
-    if (
-        typeof id === 'undefined' ||
-        typeof userName === 'undefined' ||
-        typeof firstName === 'undefined'
-    ) {
-        throw new Error(`Sorry Dude! ${firstName}`); // TODO: trying to catch incorrect datauser's
-    } else {
+    const id: number = ctx.from?.id ?? 0;
+    const userName: string = ctx.from?.username ?? '';
+    const firstName: string = ctx.from?.first_name ?? '';
+
+    // prettier-ignore
+    if (!id || !userName || !firstName) {
+        throw new Error(`Sorry Dude! ${firstName}\n${errorRegistration}`); // TODO: do correct check user registration in data base (File where we get error: premiumAllows.ts)
+    } 
+    else {
         const infAboutUser = db.prepare(`SELECT * FROM users WHERE telegram_id=?`).get(id);
         if (!infAboutUser) {
             db.prepare(`INSERT INTO users(telegram_id,user_name,first_name) VALUES (?, ?, ?)`).run(
@@ -49,7 +50,9 @@ export const registerUser = (ctx: Context): void => {
 
 export const getUserInfo = (id: number): User => {
     const stmt = db.prepare(`SELECT * FROM users WHERE telegram_id=?`).get(id);
-    if (!stmt) throw new Error(`🔴 Can't find user with such id`);
+    if (!stmt) {
+        throw new Error(`🔴 Can't find user with such id`);
+    }
     return stmt as User;
 };
 

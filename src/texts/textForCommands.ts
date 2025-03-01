@@ -60,12 +60,6 @@ export const helpMessage = `If you have any questions, please contact me at
 
 export const errorRegistration = `<b>🚫To my great regret. You can't use the bot because, your data is not registered in database. Please contact with me. I am always open to reports🚫<a href="https://t.me/React_Rogue">DEVELOPER ASD</a></b>`;
 
-export const userIsPremium = (id: number) => {
-    const time = remainingTime(id);
-    return `✅<i>Your account has gotten premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;
-};
-export const userIsNotPremium = `❌<i>You doesn't have premium status</i>❌\n\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;
-
 export const contribution = `<b>✌️ Contributions is a great way to use all bot functionality for free.</b>\n
 ✨<strong>YOU WILL BE VERY USEFUL IF YOU:</strong>\n
 <blockquote>
@@ -77,3 +71,10 @@ export const contribution = `<b>✌️ Contributions is a great way to use all b
 </blockquote>
 <u>⭐Waiting for you in my Contributors on my github⭐</u>
 <a href="https://github.com/ASDlikeS/remote-bot">WELCOME TO MY GITHUB REPOSITORY</a>`;
+
+// CHECKING PREMIUM STATUS OF USER ---------------------------
+export const userIsPremium = (id: number) => {
+    const time = remainingTime(id);
+    return `✅<i>Your account has a premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;
+};
+export const userIsNotPremium = `❌<i>You dont't have a premium status</i>❌\n\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;

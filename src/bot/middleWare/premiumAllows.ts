@@ -1,21 +1,21 @@
 import { Context, type MiddlewareFn } from 'telegraf';
 import { setDemoteUser } from '../../database/db';
 import { remainingTime } from '../microLogic/remainingTime';
-import { errorRegistration } from '../../texts/textForCommands';
 import { registerUser } from '../../database/db';
 
 export const premiumAllowsMiddleware: MiddlewareFn<Context> = async (ctx, next) => {
-    if (ctx.from && ctx.from.id) {
-        registerUser(ctx);
-        const user = remainingTime(ctx.from.id);
-
-        if (!user.days && !user.hours && !user.minutes && !user.seconds) {
-            setDemoteUser(ctx.from.id);
+    try {
+        if (ctx && ctx.from) {
+            registerUser(ctx);
+            const user = remainingTime(ctx.from.id);
+            if (!user.days && !user.hours && !user.minutes && !user.seconds) {
+                setDemoteUser(ctx.from.id);
+            }
         }
-    } else {
-        throw new Error(errorRegistration);
+        await next();
+    } catch (error) {
+        console.log('Error in premium allows middleware:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        ctx.reply(errorMessage, { parse_mode: 'HTML' });
     }
-
-    // Continue processing other middleware or commands
-    await next();
 };
