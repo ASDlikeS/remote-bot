@@ -1,12 +1,10 @@
 import { Context, type MiddlewareFn } from 'telegraf';
 import { setDemoteUser } from '../../database/db';
 import { remainingTime } from '../microLogic/remainingTime';
-import { registerUser } from '../../database/db';
 
 export const premiumAllowsMiddleware: MiddlewareFn<Context> = async (ctx, next) => {
     try {
         if (ctx && ctx.from) {
-            registerUser(ctx);
             const user = remainingTime(ctx.from.id);
             if (!user.days && !user.hours && !user.minutes && !user.seconds) {
                 setDemoteUser(ctx.from.id);

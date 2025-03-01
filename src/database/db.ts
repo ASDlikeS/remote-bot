@@ -12,6 +12,7 @@ interface User {
     total_time_ms: number;
     registered_prem_time_ms: number;
     is_premium: boolean;
+    is_banned: boolean;
 }
 
 db.exec(`CREATE TABLE IF NOT EXISTS users (
@@ -29,7 +30,6 @@ export const registerUser = (ctx: Context): void => {
     const id: number = ctx.from?.id ?? 0;
     const userName: string = ctx.from?.username ?? '';
     const firstName: string = ctx.from?.first_name ?? '';
-
     // prettier-ignore
     if (!id || !userName || !firstName) {
         throw new Error(`Sorry Dude! ${firstName}\n${errorRegistration}`); // TODO: do correct check user registration in data base (File where we get error: premiumAllows.ts)

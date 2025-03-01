@@ -125,9 +125,9 @@ export function setupCommands(bot: Telegraf) {
         try {
             const userAlreadyChecked = checkIsPremium(ctx.from.id);
             if (userAlreadyChecked.includes('✅')) {
-                ctx.reply(`You can use this command ✅ У тебя есть Премиум статус`);
+                ctx.reply(`You can use this command ✅`);
             } else {
-                throw new Error(`❌ You don't have a Premium Status ❌ У тебя нет Премиум статуса`);
+                throw new Error(`❌ You don't have a Premium Status ❌`);
             }
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });

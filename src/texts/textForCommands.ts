@@ -78,3 +78,7 @@ export const userIsPremium = (id: number) => {
     return `✅<i>Your account has a premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;
 };
 export const userIsNotPremium = `❌<i>You dont't have a premium status</i>❌\n\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;
+
+// CHECKING IS BANNED ----------------------------------------
+export const isBanned = `<b>🚫To my greatest regret. You was banned from using this bot.\n If you think that it's a mistake, please contact with me.\n I am always open to reports🚫<a href="https://t.me/React_Rogue">DEVELOPER ASD</a></b>`;
+// ------------------------------------------------------------
