@@ -1,4 +1,3 @@
-import { errorRegistration } from '../../texts/textForCommands';
 import { Context } from 'telegraf';
 
 export const handleError = (ctx: Context, error: string) => {

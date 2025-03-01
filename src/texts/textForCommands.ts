@@ -72,12 +72,15 @@ export const contribution = `<b>✌️ Contributions is a great way to use all b
 <u>⭐Waiting for you in my Contributors on my github⭐</u>
 <a href="https://github.com/ASDlikeS/remote-bot">WELCOME TO MY GITHUB REPOSITORY</a>`;
 
-// CHECKING PREMIUM STATUS OF USER --------------------------- // TODO: USER IS PREMIUM TO MERGE WITH USER IN NOT PREMIUM
-export const userIsPremium = (id: number) => {
+// CHECKING PREMIUM STATUS OF USER ---------------------------
+export const userIsPremium = (id: number, value: boolean) => {
     const time = remainingTime(id);
-    return `✅<i>Your account has a premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;
+    if (value) {
+        return `✅<i>Your account has a premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;
+    } else {
+        return `❌<i>You dont't have a premium status</i>❌\n\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;
+    }
 };
-export const userIsNotPremium = `❌<i>You dont't have a premium status</i>❌\n\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;
 
 // CHECKING IS BANNED ----------------------------------------
 export const isBanned = `<b>🚫To my greatest regret. You was banned from using this bot.\n If you think that it's a mistake, please contact with me.\n I am always open to reports🚫<a href="https://t.me/React_Rogue">DEVELOPER ASD</a></b>`;

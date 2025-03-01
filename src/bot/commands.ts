@@ -1,22 +1,8 @@
 import { Telegraf } from 'telegraf';
-import { checkGrantingRight } from './conditions/checkGrantingRight';
-import { checkIsPremium } from './conditions/checkPremium';
+import { checkIsPremium } from './conditions/checkIsPremium';
 import { handleError } from './conditions/handleError';
-import {
-    setPromoteUser,
-    setDemoteUser,
-    setTotalTimeOfPromotion,
-    setUserBannedStatus,
-    getUserInfo,
-} from '../database/db';
-import {
-    startText,
-    infoAboutPrem,
-    helpMessage,
-    userIsPremium,
-    userIsNotPremium,
-    contribution,
-} from '../texts/textForCommands';
+import { grantingRights } from './microLogic/grantingRights';
+import { startText, infoAboutPrem, helpMessage, contribution } from '../texts/textForCommands';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
@@ -72,24 +58,9 @@ export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     bot.command('promote_usr', (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
-        // prettier-ignore
         try {
-            const gottenUserInfo = checkGrantingRight(ctx.from.id, ctx.message.text);
-            if (!gottenUserInfo)
-                throw new Error(
-                    "There's issue with fetching data please contact with the developer of this bot",
-                );
-            if (checkIsPremium(gottenUserInfo.userId) === userIsPremium(ctx.from.id)) {
-                throw new Error(
-                    `❕ This user already has premium status! \n\n💯${gottenUserInfo.userName}\n If you want to demote this user please use 🙈 /demote_usr command `,
-                );
-            } 
-            else {
-                setPromoteUser(gottenUserInfo.userId, gottenUserInfo.additionTimeHrs);
-                ctx.reply(
-                    `✅ User ${gottenUserInfo.userName} has been promoted to premium. \n\n🆔USER_ID:${gottenUserInfo.userId}\n${gottenUserInfo.message}`,
-                );
-            }
+            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'promote');
+            ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
@@ -97,49 +68,19 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('demote_usr', (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
-        // prettier-ignore
         try {
-            const gottenUserInfo = checkGrantingRight(ctx.from.id, ctx.message.text);
-            if (!gottenUserInfo)
-                throw new Error(
-                    "There's issue with fetching data please contact with the developer of this bot",
-                );
-            if (checkIsPremium(gottenUserInfo.userId) === userIsNotPremium) {
-                throw new Error(
-                    `❕ This user hasn't got premium status! \n\n💯${gottenUserInfo.userName}\n If you want to promote this user please use 🙈 /promote_usr command `,
-                );
-            } 
-            else {
-                setDemoteUser(gottenUserInfo.userId);
-                ctx.reply(
-                    `❗ User ${gottenUserInfo.userName} has lost his premium status. \n\n🆔USER_ID:${gottenUserInfo.userId}`,
-                );
-            }
+            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'demote');
+            ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
 
-    bot.command('addTime_usr', (ctx) => {
+    bot.command('add_time_usr', (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
-        // prettier-ignore
         try {
-            const gottenUserInfo = checkGrantingRight(ctx.from.id, ctx.message.text);
-            if (!gottenUserInfo)
-                throw new Error(
-                    "There's issue with fetching data please contact with the developer of this bot",
-                );
-            if (checkIsPremium(gottenUserInfo.userId) === userIsNotPremium) {
-                throw new Error(
-                    `❕ This user hasn't got premium status! \n\n💯${gottenUserInfo.userName}\nYou can't add time for non-premium users! If you want to promote this user please use 🙈 /promote_usr command `,
-                );
-            } 
-            else {
-                setTotalTimeOfPromotion(gottenUserInfo.userId, gottenUserInfo.additionTimeHrs);
-                ctx.reply(
-                    `✅ User ${gottenUserInfo.userName} has gotten additional time more than before he had one. \n\n🆔USER_ID:${gottenUserInfo.userId}\n${gottenUserInfo.message}`,
-                );
-            }
+            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'addTime');
+            ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
@@ -147,18 +88,8 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('ban_usr', (ctx) => {
         try {
-            const gottenUserInfo = checkGrantingRight(ctx.from.id, ctx.message.text);
-            if (!gottenUserInfo)
-                throw new Error(
-                    "There's issue with fetching data please contact with the developer of this bot",
-                );
-            else {
-                const value = getUserInfo(gottenUserInfo.userId);
-                setUserBannedStatus(gottenUserInfo.userId, !value.is_banned);
-                value
-                    ? ctx.reply(`✅ User ${gottenUserInfo.userName} has been banned.`)
-                    : ctx.reply(`❗ User ${gottenUserInfo.userName} has been unbanned.`);
-            }
+            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'ban');
+            ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
