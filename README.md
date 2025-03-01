@@ -76,7 +76,7 @@ bun start
     - `/test` - Command for testing
     ***
 4. **ADMIN ONLY**: Commands only available to admins
-    - `/addTime_usr` - Additional time to a user's subscription
+    - `/add_time_usr` - Additional time to a user's subscription
     - `/promote_usr` - Give user premium rights
     - `/demote_usr` - Revoke user premium rights
     - `/ban_usr` - Remove user from group
