@@ -3,6 +3,7 @@ import { checkIsPremium } from './conditions/checkIsPremium';
 import { handleError } from './conditions/handleError';
 import { grantingRights } from './microLogic/grantingRights';
 import { startText, infoAboutPrem, helpMessage, contribution } from '../texts/textForCommands';
+import { premiumTimer } from './microLogic/dynamicTimer';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
@@ -13,8 +14,7 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
-            const isPremium = checkIsPremium(ctx.from.id);
-            ctx.reply(isPremium, { parse_mode: 'HTML' });
+            premiumTimer(ctx);
         } catch (error) {
             handleError(ctx, error as string);
         }
@@ -30,8 +30,7 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('premium', (ctx) => {
         try {
-            const isPremium = checkIsPremium(ctx.from.id);
-            ctx.reply(isPremium, { parse_mode: 'HTML' });
+            premiumTimer(ctx);
         } catch (error) {
             handleError(ctx, error as string);
         }
