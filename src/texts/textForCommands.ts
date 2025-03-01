@@ -72,7 +72,7 @@ export const contribution = `<b>✌️ Contributions is a great way to use all b
 <u>⭐Waiting for you in my Contributors on my github⭐</u>
 <a href="https://github.com/ASDlikeS/remote-bot">WELCOME TO MY GITHUB REPOSITORY</a>`;
 
-// CHECKING PREMIUM STATUS OF USER ---------------------------
+// CHECKING PREMIUM STATUS OF USER --------------------------- // TODO: USER IS PREMIUM TO MERGE WITH USER IN NOT PREMIUM
 export const userIsPremium = (id: number) => {
     const time = remainingTime(id);
     return `✅<i>Your account has a premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;

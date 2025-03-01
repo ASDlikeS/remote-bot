@@ -46,7 +46,7 @@ export const registerUser = (ctx: Context): void => {
     }
 };
 
-//__________________________________GETTERs_______________________________________//
+//__________________________________GETTER_______________________________________//
 
 export const getUserInfo = (id: number): User => {
     const stmt = db.prepare(`SELECT * FROM users WHERE telegram_id=?`).get(id);
@@ -78,4 +78,9 @@ export const setTotalTimeOfPromotion = (id: number, timeHrs: number): void => {
     const stmt = db.prepare(`UPDATE users SET total_time_ms=total_time_ms+? WHERE telegram_id=?`);
     const timeInMs = timeHrs * 60 * 60 * 1000; // convert hours in ms
     stmt.run(timeInMs, id);
+};
+
+export const setUserBannedStatus = (id: number, status: boolean): void => {
+    const stmt = db.prepare(`UPDATE users SET is_banned=? WHERE telegram_id=?`);
+    stmt.run(status, id);
 };

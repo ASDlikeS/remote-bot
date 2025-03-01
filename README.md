@@ -73,11 +73,13 @@ bun start
     - `/premium` - Check system status
     - `/info_about_premium` - Run a system command
     - `/help` - List running processes
+    - `/test` - Command for testing
     ***
 4. **ADMIN ONLY**: Commands only available to admins
-    - `/give_usr_time` - Additional time to a user's subscription
+    - `/addTime_usr` - Additional time to a user's subscription
     - `/promote_usr` - Give user premium rights
     - `/demote_usr` - Revoke user premium rights
+    - `/ban_usr` - Remove user from group
 5. **Enjoy Your Remote Control Experience**
 
 Watch as your subscription timer updates in real-time! ⏱️
