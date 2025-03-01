@@ -4,9 +4,10 @@
 ![Bun](https://img.shields.io/badge/Powered_by-Bun-black?style=for-the-badge&logo=bun)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
+![TelegramBot](image.png)
+
 ## 🌟 What is Remote-bot?
 
-![TelegramBot](image.png)
 Remote-bot transforms your Telegram chat into a command center for your PC! Control your computer from anywhere in the world with simple text commands. Whether you're on vacation or just too comfortable on your couch, remote-bot has you covered.
 
 ## This telegran bot:
