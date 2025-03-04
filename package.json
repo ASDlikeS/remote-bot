@@ -9,7 +9,7 @@
         "typescript": "^5.0.0"
     },
     "scripts": {
-        "start": "bun run src/server/server.ts & bun run src/server/client.ts"
+        "start": "bun run src/bot/bot.ts"
     },
     "dependencies": {
         "@types/dotenv": "^8.2.3",
