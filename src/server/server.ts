@@ -1,3 +1,5 @@
+import { notConnected } from '../texts/textForCommands';
+
 const clients = new Map<number, any>();
 
 Bun.serve({
@@ -11,17 +13,12 @@ Bun.serve({
     port: 3001,
     websocket: {
         message(ws, message) {
-            console.log(message);
-            const data = JSON.parse(message.toString());
-
-            if (data.type === 'register') {
-                clients.set(data.clientId, ws);
-                console.log('Client was registered with id: ' + data.clientId);
-                console.log("There're active clients: " + clients.size);
+            const data = JSON.parse(message.toString()); // parse the incoming message as JSON
+            if (data.type === 'register' && data.clientId) {
+                clients.set(data.clientId, ws); // store the WebSocket in the map with its ID as key
             }
         },
         open(ws) {
-            console.log('Client was connected');
             ws.send('Hi you are connected!');
         }, // a socket is opened
         close(ws, code, message) {
@@ -37,4 +34,14 @@ Bun.serve({
     }, // handlers
 });
 
-console.log('Server started on http://localhost:3001');
+export const sendCommand = (action: string, id: number, message: string | null = null): string => {
+    const client = clients.get(id);
+    if (client) {
+        client.send(JSON.stringify({ type: 'command', action, message }));
+        return `Command sent successfully! 👍 Thank you for using our bot 💖`;
+    } else {
+        throw new Error(notConnected);
+    }
+};
+
+console.log('Server started');

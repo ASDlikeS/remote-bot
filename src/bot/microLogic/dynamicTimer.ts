@@ -1,6 +1,5 @@
 import type { Context } from 'telegraf';
 import { checkIsPremium } from '../conditions/checkIsPremium';
-import { symbolsForPremiumTimer } from '../../texts/textForCommands';
 
 export const premiumTimer = async (ctx: Context): Promise<void> => {
     // Send first message to the user with the current time and date
@@ -22,7 +21,6 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
             '🚫 I`m sorry but I can`t find your chat id, please contact support https://github.com/ASDlikeS/remote-bot',
         );
     }
-    let toggle = false;
     // Update the message every 3 second
     const timerInterval = setInterval(async () => {
         try {
@@ -30,10 +28,7 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
 
             // Check if the new time includes "✅" before editing the message
             if (newTime.includes('✅')) {
-                const textToSend = toggle ? symbolsForPremiumTimer : newTime;
-                toggle = !toggle;
-
-                await ctx.telegram.editMessageText(chatId, messageId, undefined, textToSend, {
+                await ctx.telegram.editMessageText(chatId, messageId, undefined, newTime, {
                     parse_mode: 'HTML',
                 });
             } else {
@@ -46,5 +41,5 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
         } catch (error) {
             clearInterval(timerInterval);
         }
-    }, 3000);
+    }, 1000);
 };

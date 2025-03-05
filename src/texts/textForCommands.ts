@@ -20,7 +20,6 @@ const cryptoWallets = [
 
 export const startText = `*Hello my dear friend, {name}*\\!\n
 🔥I'm your *__REMOTE CONTROLLING SYSTEM BOT__\\!*🔥\n
-
 ✅I can manage your Desktop remote, with having no problems\\!\n
 ✅This action will be done by using PowerShell script which you've seen below\n
 ✅This bot supports only Windows OS\\!\n
@@ -42,7 +41,7 @@ Actually you gonna get more awesome stuff for remote controlling your PC.\n
 🤫 Psss....
 That will be all functional from powershell and automatically binding your device to telegram bot\n
 🔥2️⃣ Secondly, you can get access to my private channel where I share useful resources for developers like tutorials, articles, etc.\n
-🔥🚩 Finally, I'll go to a shop, for buying some edible suff for my stomach
+🔥🚩 Finally, I'll go to a shop, for buying some edible stuff for my stomach
 
 <blockquote>❕ Anyway you can get 🌟 <b>/premium</b> 🌟 by helping the project by contributing to the code.
 In order to find out the details you need to click on /contribution
@@ -51,12 +50,14 @@ I will be very grateful for your help😅).</blockquote>
 
 export const helpMessage = `If you have any questions, please contact me at
 🚀🚀🚀 ||[ASD](https://t.me/React_Rogue)|| 🚀🚀🚀 \n
+///////////////////////////////////////////////////////////////
 // *Here are a list of commands:*
 // /help \\- Show this help message
 // /start \\- Start bot with all information about the bot
 // /premium \\- Check your status now
 // /info\\_about\\_premium \\- Info about premium status
-// /contribution \\- Contribution to the project for getting *FREE PREMIUM STATUS*`;
+// /contribution \\- Contribution to the project for getting *FREE PREMIUM STATUS*
+// /my\\_remote \\- Listing remote commands for your *PC*`;
 
 export const errorRegistration = `<b>🚫To my great regret. You can't use the bot because, your data is not registered in database. Please contact with me. I am always open to reports🚫<a href="https://t.me/React_Rogue">DEVELOPER ASD</a></b>`;
 
@@ -76,14 +77,34 @@ export const contribution = `<b>✌️ Contributions is a great way to use all b
 export const userIsPremium = (id: number, value: boolean) => {
     const time = remainingTime(id);
     if (value) {
-        return `✅<i>Your account has a premium status</i>\nYour premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s`;
+        return `✅<b>Your account has a premium status</b>\n\n<blockquote>Your premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s</blockquote>\nFor using your remote controlling system <b>Write this commands</b>: ☑️/my_remote`;
     } else {
         return `❌<i>You dont't have a premium status</i>❌\n\nPlease buy it, if you want to use all features\nFor more information type \n☑️/info_about_premium`;
     }
 };
 
+//CHECKING USER CONNECTION -----------------------------------
+export const notConnected = `🚫 You aren't connected with remote bot🚫\nPlease connect first, using command /connect. If you have some issues with this. Feel free to contact me <a href="https://t.me/React_Rogue">@ASD</a>`;
+
 // CHECKING IS BANNED ----------------------------------------
 export const isBanned = `<b>🚫To my greatest regret. You was banned from using this bot.\n If you think that it's a mistake, please contact with me.\n I am always open to reports🚫<a href="https://t.me/React_Rogue">DEVELOPER ASD</a></b>`;
 // ------------------------------------------------------------
 
-export const symbolsForPremiumTimer = `✅<i>Your account has a premium status</i>\nYour premium status will expire after <tg-spoiler>---</tg-spoiler>ds <tg-spoiler>---</tg-spoiler>hrs <tg-spoiler>---</tg-spoiler>min <tg-spoiler>---</tg-spoiler>s`;
+// LIST OF COMMANDS -----------------------------------------
+// prettier-ignore
+export const myRemoteCommands = (isPremium: string) => {
+    let trigger: boolean = false;
+    Boolean(isPremium.includes('❌')) ? trigger = true : false;
+    return `<b><u>Here's your personal remote commands:</u></b>
+    /close - Close current window
+    /restart - Restart your PC
+    /shutdown - Shutdown your PC
+    /screenshot - Take a screenshot of your desktop
+    -----------------------------------------------------
+    ${trigger ? "\n\n\n🚫🚫🚫COMMANDS ONLY FOR PREMIUM HEROES!🚫🚫🚫<s>" : ""}\n/bind {powershell command} <blockquote>EXAMPLE: /bind {ping, ping google.com} "You've bound ping command with name ping, and now you can call it by typing /ping"</blockquote>${trigger ? "</s>" : ""}
+    ${trigger ? "<s>" : ""}/volume {changing volume in proccent %} <blockquote>EXAMPLE: /volume 50 "Changing your volume to 50%"</blockquote>${trigger ? "</s>" : ""}
+    ${trigger ? "<s>" : ""}/note - Open note file${trigger ? "</s>" : ""}
+    ${trigger ? "<s>" : ""}/kill_process {process name} <blockquote>EXAMPLE: /kill_process {firefox} "You've killed firefox process"</blockquote>${trigger ? "</s>" : ""}
+    ${trigger ? "<s>" : ""}/set_date {date} <blockquote>EXAMPLE: /set_date {2024:02:21} "You've set up your date to 2024 year February month day 21"</blockquote>${trigger ? "</s>" : ""}`;
+}
+//------------------------------------------------------------

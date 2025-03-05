@@ -10,6 +10,7 @@ const bot: Telegraf = new Telegraf(TELEGRAM_TOKEN as string);
 // bot.use(___MiddleWares___);
 bot.use(usingAllowsMiddleware);
 bot.use(premiumAllowsMiddleware);
+
 //Setup commands.
 setupCommands(bot);
 
