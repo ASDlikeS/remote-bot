@@ -6,9 +6,18 @@ ws.onopen = () => {
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     if (data.type === 'command') {
+        const isWindows = process.platform === 'win32';
         switch (data.action) {
-            case 'sreenshot': {
-                Bun.spawn(['scrot', 'sreenshot.png']);
+            case 'screenshot': {
+                if (isWindows) {
+                    Bun.spawn([
+                        'powershell',
+                        '-Command',
+                        'Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait("{PrtSc"); $bitmap = [System.Windows.Forms.Clipboard]::GetImage(); $bitmap.Save("screenshot.png", "System.Drawing.Imaging.ImageFormat]::Png");',
+                    ]);
+                } else {
+                    Bun.spawn(['scrot', 'screenshot.png']);
+                }
                 break;
             }
             case 'volume': {

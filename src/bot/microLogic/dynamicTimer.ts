@@ -25,7 +25,6 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
     const timerInterval = setInterval(async () => {
         try {
             const newTime = checkIsPremium(ctx.from!.id);
-
             // Check if the new time includes "✅" before editing the message
             if (newTime.includes('✅')) {
                 await ctx.telegram.editMessageText(chatId, messageId, undefined, newTime, {

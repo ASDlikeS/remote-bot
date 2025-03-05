@@ -1,12 +1,8 @@
-import { exec } from 'child_process';
-import { writeFile, unlink } from 'fs/promises';
+import { writeFile } from 'fs/promises';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { promisify } from 'util';
-
-const execPromise = promisify(exec);
-
 export async function generateClientFile(id: number): Promise<string> {
+    // TODO: try to compile this in binary
     const templatePath = join(__dirname, 'client_template.ts');
     const template = readFileSync(templatePath, 'utf8');
     const clientCode = template.replace('CLIENT_ID_PLACEHOLDER', id.toString());
@@ -14,10 +10,5 @@ export async function generateClientFile(id: number): Promise<string> {
     const fileName = `client_${id}.ts`;
     await writeFile(fileName, clientCode);
 
-    const compiledFile = `Remote_Configuration_${id}`;
-    await execPromise(`bun build --compile ${fileName} --outfile ${compiledFile}`);
-
-    await unlink(fileName);
-
-    return compiledFile;
+    return fileName;
 }

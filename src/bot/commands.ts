@@ -24,7 +24,6 @@ export function setupCommands(bot: Telegraf) {
             await ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
-
             const file = await generateClientFile(ctx.from.id);
 
             await ctx.replyWithDocument({ source: file });
@@ -71,7 +70,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     bot.command('demote_usr', (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
@@ -81,7 +79,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     bot.command('add_time_usr', (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
@@ -91,7 +88,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     bot.command('ban_usr', (ctx) => {
         try {
             const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'ban');
@@ -123,7 +119,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     bot.command('close', (ctx) => {
         try {
             const response = sendCommand('close', ctx.from.id);
@@ -132,7 +127,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     bot.command('restart', (ctx) => {
         try {
             const response = sendCommand('restart', ctx.from.id);
@@ -141,7 +135,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     bot.command('shutdown', (ctx) => {
         try {
             const response = sendCommand('shutdown', ctx.from.id);
@@ -150,7 +143,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     //---------------------------------------------------------------------------------------------------------------------
     // COMMANDS FOR PREMIUM USERS ONLY
     //---------------------------------------------------------------------------------------------------------------------
