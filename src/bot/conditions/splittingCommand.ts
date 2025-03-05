@@ -1,7 +1,6 @@
 import { sendCommand } from '../../server/server';
 
 export const splittingCommand = (id: number, action: string, value: string): void => {
-    console.log(1);
     const splitMessage: string[] = value.split(' ');
     const gottenValue: number = Number(splitMessage[1]);
 

@@ -30,7 +30,7 @@ export function setupCommands(bot: Telegraf) {
 
             premiumTimer(ctx);
 
-            // await unlink(file);
+            await unlink(file);
         } catch (error) {
             handleError(ctx, error as string);
         }
