@@ -1,6 +1,11 @@
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
 
 # Logs
+cert.pem
+key.pem
+*.log
+npm-debug.log*
+
 .env
 users.sqlite3.db
 db.sqlite3-journal

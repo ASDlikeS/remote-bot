@@ -37,7 +37,7 @@ export const registerUser = (ctx: Context): void => {
     else {
         const infAboutUser = db.prepare(`SELECT * FROM users WHERE telegram_id=?`).get(id);
         if (!infAboutUser) {
-            db.prepare(`INSERT INTO users(telegram_id,user_name,first_name) VALUES (?, ?, ?)`).run(
+            db.prepare(`INSERT INTO users (telegram_id,user_name,first_name) VALUES (?, ?, ?)`).run(
                 id as number,
                 userName as string,
                 firstName as string,
