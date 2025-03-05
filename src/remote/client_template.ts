@@ -24,6 +24,15 @@ ws.onmessage = (event) => {
                 Bun.spawn(['pactl', 'set-sink-volume', '@DEFAULT_SINK@', `${data.message}%`]);
                 break;
             }
+            case 'mute': {
+                Bun.spawn([
+                    'pactl',
+                    'set-sink-mute',
+                    '@DEFAULT_SINK@',
+                    data.message ? 'true' : 'false',
+                ]);
+                break;
+            }
         }
     }
 };

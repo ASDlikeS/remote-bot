@@ -12,7 +12,7 @@ import {
 } from '../texts/textForCommands';
 import { premiumTimer } from './microLogic/dynamicTimer';
 import { isConnected, sendCommand } from '../server/server';
-import { checkRemoteCommand } from './conditions/checkRemoteCommand';
+import { splittingCommand } from './conditions/splittingCommand';
 import { generateClientFile } from '../remote/generateClientFile';
 
 export function setupCommands(bot: Telegraf) {
@@ -30,7 +30,7 @@ export function setupCommands(bot: Telegraf) {
 
             premiumTimer(ctx);
 
-            await unlink(file);
+            // await unlink(file);
         } catch (error) {
             handleError(ctx, error as string);
         }
@@ -149,5 +149,13 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('bind', (ctx) => {
         ctx.reply(`It's comming soon....💤`);
+    });
+
+    bot.command('volume', (ctx) => {
+        try {
+            const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
+        } catch (err) {
+            ctx.reply(err as string);
+        }
     });
 }
