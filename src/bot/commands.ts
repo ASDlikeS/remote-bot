@@ -2,7 +2,7 @@ import { Telegraf } from 'telegraf';
 import { checkIsPremium } from './conditions/checkIsPremium';
 import { handleError } from './conditions/handleError';
 import { grantingRights } from './microLogic/grantingRights';
-import { unlinkSync } from 'fs';
+import { unlink } from 'fs/promises';
 import {
     startText,
     infoAboutPrem,
@@ -11,7 +11,7 @@ import {
     myRemoteCommands,
 } from '../texts/textForCommands';
 import { premiumTimer } from './microLogic/dynamicTimer';
-import { sendCommand } from '../server/server';
+import { isConnected, sendCommand } from '../server/server';
 import { checkRemoteCommand } from './conditions/checkRemoteCommand';
 import { generateClientFile } from '../remote/generateClientFile';
 
@@ -19,17 +19,19 @@ export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for All Users
     //---------------------------------------------------------------------------------------------------------------------
-    bot.start((ctx) => {
+    bot.start(async (ctx) => {
         try {
-            ctx.reply(startText.replace('{name}', ctx.from.first_name), {
+            await ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
-            const fileName = generateClientFile(ctx.from.id);
-            ctx.replyWithDocument({ source: fileName });
+
+            const file = await generateClientFile(ctx.from.id);
+
+            await ctx.replyWithDocument({ source: file });
+
             premiumTimer(ctx);
-            setTimeout(() => {
-                unlinkSync(fileName);
-            }, 100);
+
+            await unlink(file);
         } catch (error) {
             handleError(ctx, error as string);
         }
@@ -104,9 +106,10 @@ export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     bot.command('connect', (ctx) => {
         try {
-            ctx.reply(')))))))))))');
+            const connected = isConnected(ctx.from.id);
+            ctx.reply(connected);
         } catch (error) {
-            handleError(ctx, error as string);
+            ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
     //---------------------------------------------------------------------------------------------------------------------
@@ -114,7 +117,8 @@ export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     bot.command('screenshot', (ctx) => {
         try {
-            sendCommand('screenshot', ctx.from.id);
+            const response = sendCommand('screenshot', ctx.from.id);
+            ctx.reply(response);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
@@ -122,7 +126,8 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('close', (ctx) => {
         try {
-            sendCommand('close', ctx.from.id);
+            const response = sendCommand('close', ctx.from.id);
+            ctx.reply(response);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
@@ -130,7 +135,8 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('restart', (ctx) => {
         try {
-            sendCommand('restart', ctx.from.id);
+            const response = sendCommand('restart', ctx.from.id);
+            ctx.reply(response);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
@@ -138,7 +144,8 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('shutdown', (ctx) => {
         try {
-            sendCommand('shutdown', ctx.from.id);
+            const response = sendCommand('shutdown', ctx.from.id);
+            ctx.reply(response);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }

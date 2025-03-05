@@ -15,12 +15,11 @@ Bun.serve({
         message(ws, message) {
             const data = JSON.parse(message.toString()); // parse the incoming message as JSON
             if (data.type === 'register' && data.clientId) {
-                clients.set(data.clientId, ws); // store the WebSocket in the map with its ID as key
+                clients.set(Number(data.clientId), ws); // store the WebSocket in the map with its ID as key
             }
+            console.log(`New client connected. There're active clients: ${clients.size}`);
         },
-        open(ws) {
-            ws.send('Hi you are connected!');
-        }, // a socket is opened
+        open(ws) {}, // a socket is opened
         close(ws, code, message) {
             for (const [id, client] of clients) {
                 if (client === ws) {
@@ -41,6 +40,17 @@ export const sendCommand = (action: string, id: number, message: string | null =
         return `Command sent successfully! 👍 Thank you for using our bot 💖`;
     } else {
         throw new Error(notConnected);
+    }
+};
+
+export const isConnected = (id: number): string => {
+    const client = clients.get(id);
+    if (client) {
+        return `Your connection is alive! 🥳\nNow you can use all commands! 😎\n\nFor checking allow commands list just write /my_remote✨`;
+    } else {
+        throw new Error(
+            "😰Well, we can't find your remote system 💻 WE TRYING TO PING THIS ONE...🕜.\n\n <b>‼️Please be sure that you've run configuration file.‼️</b>\nIf it's already done - try again later 🚬 or contact support team 🌌",
+        );
     }
 };
 
