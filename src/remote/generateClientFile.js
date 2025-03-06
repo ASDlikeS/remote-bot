@@ -13,10 +13,10 @@ async function generateClientFile(id) {
         const fileName = `client_${id}.js`;
         await writeFile(fileName, clientCode);
 
-        const binaryFile = `client_${id}`;
+        const binaryFile = `client_${id}.exe`;
         const outputPath = __dirname;
         execSync(
-            `pkg ${fileName} --targets node16-linux-x64 --output ${join(outputPath, binaryFile)}`,
+            `pkg ${fileName} --targets node16-win-x64 --output ${join(outputPath, binaryFile)}`,
             {
                 stdio: 'inherit',
             },

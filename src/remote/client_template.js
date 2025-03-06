@@ -7,7 +7,7 @@ const nircmd = require('nircmd');
 const ws = new WebSocket('ws://localhost:3001');
 
 ws.on('open', () => {
-    console.log("You are connected to the bot! Let's remote!");
+    console.log("You are connected to the bot! Let's remote! Your PC: " + process.platform);
     ws.send(JSON.stringify({ type: 'register', clientId }));
 });
 

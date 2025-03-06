@@ -14,25 +14,32 @@ import { premiumTimer } from './microLogic/dynamicTimer';
 import { isConnected, sendCommand } from '../server/server';
 import { splittingCommand } from './conditions/splittingCommand';
 import { generateClientFile } from '../remote/generateClientFile';
+import { checkCreatedFile } from './conditions/checkCreatedFile';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for All Users
     //---------------------------------------------------------------------------------------------------------------------
-    bot.start(async (ctx) => {
+    bot.start((ctx) => {
         try {
-            await ctx.reply(startText.replace('{name}', ctx.from.first_name), {
+            ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
-            const file = await generateClientFile(ctx.from.id);
-
-            await ctx.replyWithDocument({ source: file });
-
             premiumTimer(ctx);
-
-            await unlink(file);
         } catch (error) {
             handleError(ctx, error as string);
+        }
+    });
+
+    bot.command('file', async (ctx) => {
+        try {
+            const response = checkCreatedFile(ctx.from.id);
+            const file = await generateClientFile(ctx.from.id);
+            await ctx.replyWithDocument({ source: file });
+            await unlink(file);
+            ctx.reply(response, { parse_mode: 'HTML' });
+        } catch (err) {
+            ctx.reply(err as string, { parse_mode: 'HTML' });
         }
     });
 

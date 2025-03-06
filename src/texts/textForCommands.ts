@@ -24,8 +24,11 @@ export const startText = `*Hello my dear friend, {name}*\\!\n
 ✅This action will be done by using PowerShell script which you've seen below\n
 ✅This bot supports only Windows OS\\!\n
 💡This bot will support another operating systems SOON\\.\\.\\.\n
-_*__Download this attached file and run it on your computer__*_
-⚠️ *WARNING⚠️: This file is executable only on Windows OS\\!*\n\n
+_*__Download file with command: /file and run it on your computer__*_
+⚠️ *WARNING⚠️: This file is executable BOTH Windows OS and Linux\\!*
+
+Manuals for /linux and /windows commands wait you\\.\\.\\.
+
 If you have any issues, feel free to contact me at
 🚀🚀🚀 __*||[ASD](https://t.me/React_Rogue)||*__ 🚀🚀🚀\n\n
 OR USE THIS COMMAND /help FOR MORE INFORMATION ABOUT THE BOT`;

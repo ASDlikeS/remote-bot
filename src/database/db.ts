@@ -13,6 +13,7 @@ interface User {
     registered_prem_time_ms: number;
     is_premium: boolean;
     is_banned: boolean;
+    time_created_file: number;
 }
 
 db.exec(`CREATE TABLE IF NOT EXISTS users (
@@ -23,7 +24,8 @@ db.exec(`CREATE TABLE IF NOT EXISTS users (
 	is_premium BOOLEAN DEFAULT FALSE,
     registered_prem_time_ms INTEGER DEFAULT 0,
     total_time_ms INTEGER DEFAULT 0,
-    is_banned BOOLEAN DEFAULT FALSE
+    is_banned BOOLEAN DEFAULT FALSE,
+    time_created_file INTEGER DEFAULT 0
 );`);
 
 export const registerUser = (ctx: Context): void => {
@@ -83,4 +85,10 @@ export const setTotalTimeOfPromotion = (id: number, timeHrs: number): void => {
 export const setUserBannedStatus = (id: number, status: boolean): void => {
     const stmt = db.prepare(`UPDATE users SET is_banned=? WHERE telegram_id=?`);
     stmt.run(status, id);
+};
+
+export const setUserCreatedFile = (id: number): void => {
+    const stmt = db.prepare(`UPDATE users SET time_created_file=? WHERE telegram_id=?`);
+    const currentDateMs = Date.now();
+    stmt.run(currentDateMs, id);
 };
