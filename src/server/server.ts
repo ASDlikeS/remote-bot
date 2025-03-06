@@ -33,7 +33,7 @@ Bun.serve({
     }, // handlers
 });
 
-export const sendCommand = (action: string, id: number, message: string | null = null): string => {
+export const sendCommand = (action: string, id: number, message: string | void): string => {
     const client = clients.get(id);
     if (client) {
         client.send(JSON.stringify({ type: 'command', action, message }));

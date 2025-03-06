@@ -157,4 +157,12 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(err as string);
         }
     });
+    bot.command('mute', (ctx) => {
+        try {
+            const response = sendCommand('mute', ctx.from.id);
+            ctx.reply(response);
+        } catch (error) {
+            ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
 }
