@@ -43,7 +43,6 @@ export function setupCommands(bot: Telegraf) {
             handleError(ctx, error as string);
         }
     });
-
     bot.command('help', (ctx) => {
         ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
     });
@@ -150,10 +149,10 @@ export function setupCommands(bot: Telegraf) {
     bot.command('bind', (ctx) => {
         ctx.reply(`It's comming soon....💤`);
     });
-
     bot.command('volume', (ctx) => {
         try {
             const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
+            ctx.reply(response as string);
         } catch (err) {
             ctx.reply(err as string);
         }

@@ -1,6 +1,6 @@
 import { sendCommand } from '../../server/server';
 
-export const splittingCommand = (id: number, action: string, value: string): void => {
+export const splittingCommand = (id: number, action: string, value: string): void | string => {
     const splitMessage: string[] = value.split(' ');
     const gottenValue: number = Number(splitMessage[1]);
 
@@ -9,6 +9,6 @@ export const splittingCommand = (id: number, action: string, value: string): voi
     } else if (gottenValue < 0 || gottenValue > 100) {
         throw new Error('Invalid argument');
     } else {
-        sendCommand(action, id, splitMessage[1]);
+        return sendCommand(action, id, splitMessage[1]);
     }
 };
