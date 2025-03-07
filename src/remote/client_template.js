@@ -4,6 +4,8 @@ const { WebSocket } = require('ws');
 const { spawn } = require('child_process');
 const nircmd = require('nircmd');
 
+// PAINTING IN TERMINAL----------------------------------------------------------
+
 const ws = new WebSocket('ws://localhost:3001');
 
 ws.on('open', () => {
@@ -36,12 +38,13 @@ ws.on('message', (data) => {
             case 'volume': {
                 if (isWindows) {
                     const volumeLevel = Math.round(parsedData.message * 655.35);
-                    nircmd('setsysvolume', volumeLevel);
+                    spawn('nircmd', ['setsysvolume', volumeLevel.toString()]);
                 } else {
                     spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
                 }
                 break;
             }
+
             case 'mute': {
                 if (isWindows) {
                     nircmd('mutesysvolume', parsedData.message ? '1' : '0');
@@ -56,4 +59,8 @@ ws.on('message', (data) => {
             }
         }
     }
+});
+
+ws.on('error', (err) => {
+    console.error('WebSocket error:', err.message);
 });

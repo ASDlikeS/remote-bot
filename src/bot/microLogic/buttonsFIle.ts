@@ -10,6 +10,9 @@ interface OperSystem {
 
 export async function buttonFile(bot: Telegraf, ctx: Context) {
     try {
+        const response = checkCreatedFile(ctx.from?.id as number);
+        if (!response) return;
+
         ctx.reply(
             'Choose current Operating System: 💻',
             Markup.inlineKeyboard([
@@ -20,7 +23,6 @@ export async function buttonFile(bot: Telegraf, ctx: Context) {
         );
 
         bot.action(['compile_windows', 'compile_linux', 'compile_macos'], async (ctx) => {
-            const userId = ctx.from.id;
             const os = ctx.match[0].replace('compile_', '');
 
             let target: OperSystem = {
@@ -42,9 +44,7 @@ export async function buttonFile(bot: Telegraf, ctx: Context) {
                     break;
             }
 
-            const response = checkCreatedFile(userId);
-
-            const binaryFile = await generateClientFile(userId, target);
+            const binaryFile = await generateClientFile(ctx.from.id, target);
 
             ctx.reply(`🔄 Compilation for ${os.toUpperCase()} starts... Wait a few seconds!`);
 
