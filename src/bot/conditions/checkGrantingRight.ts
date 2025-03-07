@@ -12,7 +12,6 @@ export const checkGrantingRight = (
     idWhoGivesRights: number,
     idToWhomGiveRights: string,
 ): UserInfo | void => {
-    // TODO: add checking if user has admin rights for this action
     if (idWhoGivesRights !== Number(ADMIN_ID)) {
         throw Error(
             "🔴 <b>The process was forcibly stopped.</b> <pre>You don't have enough permissions to do this action! You aren't an admin.</pre>",

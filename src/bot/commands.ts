@@ -1,39 +1,54 @@
-import { Telegraf } from 'telegraf';
+import { Markup, Telegraf } from 'telegraf';
 import { checkIsPremium } from './conditions/checkIsPremium';
 import { handleError } from './conditions/handleError';
 import { grantingRights } from './microLogic/grantingRights';
-import { unlink } from 'fs/promises';
 import {
     startText,
     infoAboutPrem,
     helpMessage,
     contribution,
     myRemoteCommands,
+    manual,
 } from '../texts/textForCommands';
 import { premiumTimer } from './microLogic/dynamicTimer';
 import { isConnected, sendCommand } from '../server/server';
-import { checkRemoteCommand } from './conditions/checkRemoteCommand';
-import { generateClientFile } from '../remote/generateClientFile';
+import { splittingCommand } from './conditions/splittingCommand';
+import { buttonFile } from './microLogic/buttonsFIle';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for All Users
     //---------------------------------------------------------------------------------------------------------------------
-    bot.start(async (ctx) => {
+    bot.start((ctx) => {
         try {
-            await ctx.reply(startText.replace('{name}', ctx.from.first_name), {
+            ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
-            const file = await generateClientFile(ctx.from.id);
-
-            await ctx.replyWithDocument({ source: file });
-
             premiumTimer(ctx);
-
-            await unlink(file);
         } catch (error) {
             handleError(ctx, error as string);
         }
+    });
+
+    //---------------------------------------------------------------------------------------------------------------------
+    // Commands for File generation
+    //---------------------------------------------------------------------------------------------------------------------
+    bot.command('file', async (ctx) => {
+        await buttonFile(bot, ctx);
+    });
+    bot.command('manual', (ctx) => {
+        ctx.reply(
+            'Select the system for which you need a manual: 💻',
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Windows 📝', 'windows')],
+                [Markup.button.callback('Linux 📝', 'linux')],
+                [Markup.button.callback('MacOS 📝', 'macos')],
+            ]),
+        );
+        bot.action(['windows', 'linux', 'macos'], async (ctx) => {
+            const choosenSys = ctx.match[0];
+            manual(choosenSys);
+        });
     });
 
     bot.command('premium', (ctx) => {
@@ -43,7 +58,6 @@ export function setupCommands(bot: Telegraf) {
             handleError(ctx, error as string);
         }
     });
-
     bot.command('help', (ctx) => {
         ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
     });
@@ -149,5 +163,21 @@ export function setupCommands(bot: Telegraf) {
 
     bot.command('bind', (ctx) => {
         ctx.reply(`It's comming soon....💤`);
+    });
+    bot.command('volume', (ctx) => {
+        try {
+            const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
+            ctx.reply(response as string);
+        } catch (err) {
+            ctx.reply(err as string);
+        }
+    });
+    bot.command('mute', (ctx) => {
+        try {
+            const response = sendCommand('mute', ctx.from.id);
+            ctx.reply(response);
+        } catch (error) {
+            ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
     });
 }

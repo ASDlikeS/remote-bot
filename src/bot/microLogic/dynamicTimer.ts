@@ -42,3 +42,4 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
         }
     }, 1000);
 };
+3;

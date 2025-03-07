@@ -4,22 +4,21 @@ const clients = new Map<number, any>();
 
 Bun.serve({
     fetch(req, server) {
-        // upgrade the request to a WebSocket
         if (server.upgrade(req)) {
-            return; // do not return a Response
+            return;
         }
         return new Response('Upgrade failed', { status: 500 });
     },
     port: 3001,
     websocket: {
         message(ws, message) {
-            const data = JSON.parse(message.toString()); // parse the incoming message as JSON
+            const data = JSON.parse(message.toString());
             if (data.type === 'register' && data.clientId) {
-                clients.set(Number(data.clientId), ws); // store the WebSocket in the map with its ID as key
+                clients.set(Number(data.clientId), ws);
             }
             console.log(`New client connected. There're active clients: ${clients.size}`);
         },
-        open(ws) {}, // a socket is opened
+        open(ws) {},
         close(ws, code, message) {
             for (const [id, client] of clients) {
                 if (client === ws) {
@@ -29,11 +28,11 @@ Bun.serve({
                 }
             }
             console.log(`There're active clients: ${clients.size}`);
-        }, // a socket is closed
-    }, // handlers
+        },
+    },
 });
 
-export const sendCommand = (action: string, id: number, message: string | null = null): string => {
+export const sendCommand = (action: string, id: number, message: string | void): string => {
     const client = clients.get(id);
     if (client) {
         client.send(JSON.stringify({ type: 'command', action, message }));
