@@ -21,7 +21,6 @@ export const checkGrantingRight = (
     const userId: number = Number(gottenMessageId[1]);
     let additionTimeHrs: number = Number(gottenMessageId[2]);
 
-    // Try to caught errors with wrong input data
     if (gottenMessageId.length < 2) {
         throw Error(
             '🔴 <b>The process was forcibly stopped.</b><pre>Invalid arguments! Write user id</pre>',
@@ -32,23 +31,21 @@ export const checkGrantingRight = (
         );
     } else if (!additionTimeHrs || additionTimeHrs <= 0 || additionTimeHrs > 1000) {
         additionTimeHrs = 1;
-        // If all is ok we will get user's information by id
         const userInfo = getUserInfo(userId);
         const userName: string = userInfo.user_name;
         const message: string = `❗ You haven't given any time for user ${userName}. So user ${userName} was been granted premium status for 🕙 1 hour.`;
         return {
-            userId, // We return object which contains the id of a user who given rights and his name
+            userId,
             userName,
             additionTimeHrs,
             message,
         };
     } else {
-        // If all is ok we will get user's information by id
         const userInfo = getUserInfo(userId);
         const userName: string = userInfo.user_name;
         const message: string = `📳 You have given for user ${userName} - 🕐 ${additionTimeHrs} hours.`;
         return {
-            userId, // We return object which contains the id of a user who given rights and his name
+            userId,
             userName,
             additionTimeHrs,
             message,

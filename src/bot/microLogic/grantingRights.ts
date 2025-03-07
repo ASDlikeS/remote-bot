@@ -1,17 +1,20 @@
 import { checkGrantingRight } from '../conditions/checkGrantingRight';
 import { checkIsPremium } from '../conditions/checkIsPremium';
-// prettier-ignore
-import { setTotalTimeOfPromotion, setPromoteUser, setDemoteUser, getUserInfo, setUserBannedStatus } from '../../database/db';
+import {
+    setTotalTimeOfPromotion,
+    setPromoteUser,
+    setDemoteUser,
+    getUserInfo,
+    setUserBannedStatus,
+} from '../../database/db';
 
 export const grantingRights = (id: number, message: string, action: string): string | void => {
-    // Checking if gotten information is correct and not empty
     const gottenUserInfo = checkGrantingRight(id, message);
     if (!gottenUserInfo)
         throw new Error(
             "There's issue with fetching data please contact with the developer of this bot",
         );
 
-    // Addition time for user
     if (action === 'addTime') {
         if (checkIsPremium(gottenUserInfo.userId).includes('❌')) {
             throw new Error(
@@ -23,7 +26,6 @@ export const grantingRights = (id: number, message: string, action: string): str
         }
     }
 
-    // Promoting or Demoting user
     if (action === 'promote') {
         if (checkIsPremium(gottenUserInfo.userId).includes('✅')) {
             throw new Error(
@@ -35,7 +37,6 @@ export const grantingRights = (id: number, message: string, action: string): str
         }
     }
 
-    // Demoting user
     if (action === 'demote') {
         if (checkIsPremium(gottenUserInfo.userId).includes('❌')) {
             throw new Error(
@@ -47,7 +48,6 @@ export const grantingRights = (id: number, message: string, action: string): str
         }
     }
 
-    // Ban user
     if (action === 'ban') {
         const value = getUserInfo(gottenUserInfo.userId);
         setUserBannedStatus(gottenUserInfo.userId, !value.is_banned);

@@ -116,3 +116,4 @@ export const myRemoteCommands = (isPremium: string) => {
 export const manual = (os: string): string => {
     return `smth#`; //TODO: Write manuals
 };
+//------------------------------------------------------------
