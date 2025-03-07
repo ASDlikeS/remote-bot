@@ -24,10 +24,10 @@ export const startText = `*Hello my dear friend, {name}*\\!\n
 ✅This action will be done by using PowerShell script which you've seen below\n
 ✅This bot supports only Windows OS\\!\n
 💡This bot will support another operating systems SOON\\.\\.\\.\n
-_*__Download file with command: /file and run it on your computer__*_
-⚠️ *WARNING⚠️: This file is executable BOTH Windows OS and Linux\\!*
+*__Download file with command: /file and run it on your computer__*\n\n
+⚠️ *WARNING⚠️: This file is for your system only and no other system\\. The developer is not responsible for your actions\\. This program is not intended as Malware or any other RemoteVirus\\. The program is intended only for your convenience to manage your system*\\.\\!\
 
-Manuals for /linux and /windows commands wait you\\.\\.\\.
+Manuals for /manual command wait you\\.\\.\\.
 
 If you have any issues, feel free to contact me at
 🚀🚀🚀 __*||[ASD](https://t.me/React_Rogue)||*__ 🚀🚀🚀\n\n
@@ -111,3 +111,8 @@ export const myRemoteCommands = (isPremium: string) => {
     ${trigger ? "<s>" : ""}/set_date {date} <blockquote>EXAMPLE: /set_date {2024:02:21} "You've set up your date to 2024 year February month day 21"</blockquote>${trigger ? "</s>" : ""}`;
 }
 //------------------------------------------------------------
+
+// MANUALS FOR DOWNLOADING FILE ------------------------------
+export const manual = (os: string): string => {
+    return `smth#`; //TODO: Write manuals
+};

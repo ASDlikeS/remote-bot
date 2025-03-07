@@ -4,27 +4,23 @@ const { join } = require('path');
 const { execSync } = require('child_process');
 const { unlink } = require('fs/promises');
 
-async function generateClientFile(id) {
+async function generateClientFile(id, osType) {
     try {
         const templatePath = join(__dirname, 'client_template.js');
+
         const template = readFileSync(templatePath, 'utf8');
         const clientCode = template.replace('CLIENT_ID_PLACEHOLDER', id.toString());
 
         const fileName = `client_${id}.js`;
         await writeFile(fileName, clientCode);
 
-        const binaryFile = `client_${id}.exe`;
-        const outputPath = __dirname;
-        execSync(
-            `pkg ${fileName} --targets node16-win-x64 --output ${join(outputPath, binaryFile)}`,
-            {
-                stdio: 'inherit',
-            },
-        );
+        const binaryFile = join(__dirname, `client_${id}.${osType.type}`);
 
-        const binaryFullPath = join(outputPath, binaryFile);
+        //prettier-ignore
+        execSync(`pkg ${fileName} --targets node16-${osType.os}-x64 --output ${binaryFile} --no-bytecode --public`, {stdio: 'inherit'});
         await unlink(fileName);
-        return binaryFullPath;
+
+        return `${binaryFile}`;
     } catch (error) {
         throw error;
     }

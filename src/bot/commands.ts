@@ -1,20 +1,19 @@
-import { Telegraf } from 'telegraf';
+import { Markup, Telegraf } from 'telegraf';
 import { checkIsPremium } from './conditions/checkIsPremium';
 import { handleError } from './conditions/handleError';
 import { grantingRights } from './microLogic/grantingRights';
-import { unlink } from 'fs/promises';
 import {
     startText,
     infoAboutPrem,
     helpMessage,
     contribution,
     myRemoteCommands,
+    manual,
 } from '../texts/textForCommands';
 import { premiumTimer } from './microLogic/dynamicTimer';
 import { isConnected, sendCommand } from '../server/server';
 import { splittingCommand } from './conditions/splittingCommand';
-import { generateClientFile } from '../remote/generateClientFile';
-import { checkCreatedFile } from './conditions/checkCreatedFile';
+import { buttonFile } from './microLogic/buttonsFIle';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
@@ -31,16 +30,25 @@ export function setupCommands(bot: Telegraf) {
         }
     });
 
+    //---------------------------------------------------------------------------------------------------------------------
+    // Commands for File generation
+    //---------------------------------------------------------------------------------------------------------------------
     bot.command('file', async (ctx) => {
-        try {
-            const response = checkCreatedFile(ctx.from.id);
-            const file = await generateClientFile(ctx.from.id);
-            await ctx.replyWithDocument({ source: file });
-            await unlink(file);
-            ctx.reply(response, { parse_mode: 'HTML' });
-        } catch (err) {
-            ctx.reply(err as string, { parse_mode: 'HTML' });
-        }
+        await buttonFile(bot, ctx);
+    });
+    bot.command('manual', (ctx) => {
+        ctx.reply(
+            'Select the system for which you need a manual: 💻',
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Windows 📝', 'windows')],
+                [Markup.button.callback('Linux 📝', 'linux')],
+                [Markup.button.callback('MacOS 📝', 'macos')],
+            ]),
+        );
+        bot.action(['windows', 'linux', 'macos'], async (ctx) => {
+            const choosenSys = ctx.match[0];
+            manual(choosenSys);
+        });
     });
 
     bot.command('premium', (ctx) => {

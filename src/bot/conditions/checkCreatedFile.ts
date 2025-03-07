@@ -16,7 +16,7 @@ export const checkCreatedFile = (id: number) => {
         return `⚡⚡⚡ ${userInfo.user_name} you've created a file! You'll be able to create another one in <b>♻️ 30 minutes ♻️</b> 👀.`;
     } else if (elapsedTime <= totalTimeMs) {
         throw new Error(
-            `🔴🔴🔴 😖 I'm sorry but you can't create more files yet... <b>Remainder time: 🕙${minutes}:${seconds}🕙</b> 🔴🔴🔴`,
+            `🔴🔴🔴 😖 I'm sorry but you can't create more files yet... <b>Remaining time: 🕙${minutes}:${seconds}🕙</b> 🔴🔴🔴`,
         );
     } else {
         setUserCreatedFile(id);
