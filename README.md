@@ -14,8 +14,6 @@ Remote-bot transforms your Telegram chat into a command center for your PC! Cont
 
 👉 [@asd_remote_bot](https://t.me/asd_remote_bot)
 
-## 😰 Bot Commands During Development
-
 ![DevelopinStage](https://media0.giphy.com/media/Mah9dFWo1WZX0WM62Q/giphy.gif?cid=6c09b952l7elw4ti8b8zajeer35s0vetfc94a49eik81b6d4&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
 ## ✨ Features That Make remote-bot Awesome
@@ -87,7 +85,15 @@ Watch as your subscription timer updates in real-time! ⏱️
 ## 💻 Command Examples
 
 ```
-At the design stage...
+    /close - Close current window
+    /restart - Restart your PC
+    /shutdown - Shutdown your PC
+    /screenshot - Take a screenshot of your desktop
+    /note - Open note file
+    /volume {changing volume in proccent %}
+    /kill_process {process name}
+    /set_date {date}
+
 ```
 
 ## 🤝 Contribute to the Magic

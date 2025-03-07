@@ -10,9 +10,6 @@ interface OperSystem {
 
 export async function buttonFile(bot: Telegraf, ctx: Context) {
     try {
-        const response = checkCreatedFile(ctx.from?.id as number);
-        if (!response) return;
-
         ctx.reply(
             'Choose current Operating System: 💻',
             Markup.inlineKeyboard([
@@ -23,6 +20,8 @@ export async function buttonFile(bot: Telegraf, ctx: Context) {
         );
 
         bot.action(['compile_windows', 'compile_linux', 'compile_macos'], async (ctx) => {
+            await ctx.editMessageReplyMarkup({ inline_keyboard: [] });
+            const response = checkCreatedFile(ctx.from?.id as number);
             const os = ctx.match[0].replace('compile_', '');
 
             let target: OperSystem = {
