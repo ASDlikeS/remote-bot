@@ -1,6 +1,7 @@
 import { notConnected } from '../texts/textForCommands';
 
 const clients = new Map<number, any>();
+const port = process.env.PORT || 3001;
 
 Bun.serve({
     fetch(req, server) {
@@ -9,7 +10,7 @@ Bun.serve({
         }
         return new Response('Upgrade failed', { status: 500 });
     },
-    port: process.env.RAILWAY_TCP_PROXY_PORT,
+    port: port,
     websocket: {
         message(ws, message) {
             const data = JSON.parse(message.toString());
