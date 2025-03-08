@@ -9,7 +9,7 @@ Bun.serve({
         }
         return new Response('Upgrade failed', { status: 500 });
     },
-    port: 3001,
+    port: process.env.RAILWAY_TCP_PROXY_PORT,
     websocket: {
         message(ws, message) {
             const data = JSON.parse(message.toString());

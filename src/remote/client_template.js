@@ -95,7 +95,7 @@ const { spawn } = require('child_process');
 const clientId = `CLIENT_ID_PLACEHOLDER`;
 
 function connectWebSocket() {
-    const ws = new WebSocket('ws://localhost:3001');
+    const ws = new WebSocket(`ws://${process.env.RAILWAY_PRIVATE_DOMAIN}`);
     ws.on('open', () => {
         console.log('Successfully connected! 🇷🇺');
         ws.send(JSON.stringify({ type: 'register', clientId }));
