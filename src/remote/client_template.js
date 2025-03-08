@@ -113,7 +113,7 @@ function connectWebSocket() {
 
 const loudness = require('loudness');
 const screenshot = require('screenshot-desktop');
-const { execFile } = require('child_process');
+const { exec } = require('child_process');
 
 function handleCommand(data) {
     const parsedData = JSON.parse(data);
@@ -123,10 +123,16 @@ function handleCommand(data) {
         switch (parsedData.action) {
             case 'screenshot': {
                 if (isWindows) {
-                    screenshot({ filename: 'screenshot.png' });
+                    screenshot({ filename: 'screenshot.png' })
+                        .then(() => console.log('✅ Скриншот сохранён!'))
+                        .catch((err) => console.error('Ошибка создания скриншота:', err));
                 } else {
                     exec(
                         'xdotool getactivewindow | xwd -root -silent -out screenshot.xwd && convert screenshot.xwd screenshot.png',
+                        (err) => {
+                            if (err) console.error('Ошибка создания скриншота:', err);
+                            else console.log('✅ Скриншот сохранён!');
+                        },
                     );
                 }
                 break;
@@ -143,7 +149,7 @@ function handleCommand(data) {
                 if (isWindows) {
                     loudness.setMuted(true);
                 } else {
-                    spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '1']);
+                    spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '1']);
                 }
                 break;
             }
@@ -151,7 +157,7 @@ function handleCommand(data) {
                 if (isWindows) {
                     loudness.setMuted(false);
                 } else {
-                    spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '0']);
+                    spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '0']);
                 }
                 break;
             }
@@ -159,15 +165,15 @@ function handleCommand(data) {
                 if (process.platform === 'win32') {
                     execFile('shutdown', ['/s', '/t', '0']);
                 } else {
-                    execFile('poweroff');
+                    exec('poweroff');
                 }
                 break;
             }
             case 'restart': {
                 if (process.platform === 'win32') {
-                    execFile('shutdown', ['/r', '/t', '0']);
+                    exec('shutdown', ['/r', '/t', '0']);
                 } else {
-                    execFile('reboot');
+                    exec('reboot');
                 }
                 break;
             }

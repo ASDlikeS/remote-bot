@@ -109,9 +109,12 @@ export const myRemoteCommands = (isPremium: string) => {
     -----------------------------------------------------
     ${trigger ? "\n\n\n🚫🚫🚫COMMANDS ONLY FOR PREMIUM HEROES!🚫🚫🚫<s>" : ""}\n/bind {powershell command} <blockquote>EXAMPLE: /bind {ping, ping google.com} "You've bound ping command with name ping, and now you can call it by typing /ping"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/volume {changing volume in proccent %} <blockquote>EXAMPLE: /volume 50 "Changing your volume to 50%"</blockquote>${trigger ? "</s>" : ""}
-    ${trigger ? "<s>" : ""}/note - Open note file${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/kill_process {process name} <blockquote>EXAMPLE: /kill_process {firefox} "You've killed firefox process"</blockquote>${trigger ? "</s>" : ""}
-    ${trigger ? "<s>" : ""}/set_date {date} <blockquote>EXAMPLE: /set_date {2024:02:21} "You've set up your date to 2024 year February month day 21"</blockquote>${trigger ? "</s>" : ""}`;
+    ${trigger ? "<s>" : ""}/set_date {date} <blockquote>EXAMPLE: /set_date {2024:02:21} "You've set up your date to 2024 year February month day 21"</blockquote>${trigger ? "</s>" : ""}
+    ${trigger ? "<s>" : ""}/mute - Mute your Headphones${trigger ? "</s>" : ""}
+    ${trigger ? "<s>" : ""}/unmute - Unmute your Headphones${trigger ? "</s>" : ""}
+    ${trigger ? "<s>" : ""}/note - Open note file${trigger ? "</s>" : ""}
+    `;
 }
 //------------------------------------------------------------
 
