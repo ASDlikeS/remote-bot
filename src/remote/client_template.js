@@ -119,56 +119,60 @@ function handleCommand(data) {
     const parsedData = JSON.parse(data);
     const isWindows = process.platform === 'win32';
 
-    switch (parsedData.action) {
-        case 'screenshot': {
-            if (isWindows) {
-                screenshot({ filename: 'screenshot.png' });
-            } else {
-                exec(
-                    'xdotool getactivewindow | xwd -root -silent -out screenshot.xwd && convert screenshot.xwd screenshot.png',
-                );
+    try {
+        switch (parsedData.action) {
+            case 'screenshot': {
+                if (isWindows) {
+                    screenshot({ filename: 'screenshot.png' });
+                } else {
+                    exec(
+                        'xdotool getactivewindow | xwd -root -silent -out screenshot.xwd && convert screenshot.xwd screenshot.png',
+                    );
+                }
+                break;
             }
-            break;
-        }
-        case 'volume': {
-            if (isWindows) {
-                loudness.setVolume(Number(parsedData.message));
-            } else {
-                spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
+            case 'volume': {
+                if (isWindows) {
+                    loudness.setVolume(Number(parsedData.message));
+                } else {
+                    spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
+                }
+                break;
             }
-            break;
-        }
-        case 'mute': {
-            if (isWindows) {
-                loudness.setMuted(true);
-            } else {
-                spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '1']);
+            case 'mute': {
+                if (isWindows) {
+                    loudness.setMuted(true);
+                } else {
+                    spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '1']);
+                }
+                break;
             }
-            break;
-        }
-        case 'unmute': {
-            if (isWindows) {
-                loudness.setMuted(false);
-            } else {
-                spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '0']);
+            case 'unmute': {
+                if (isWindows) {
+                    loudness.setMuted(false);
+                } else {
+                    spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '0']);
+                }
+                break;
             }
-            break;
-        }
-        case 'shutdown': {
-            if (process.platform === 'win32') {
-                execFile('shutdown', ['/s', '/t', '0']);
-            } else {
-                execFile('poweroff');
+            case 'shutdown': {
+                if (process.platform === 'win32') {
+                    execFile('shutdown', ['/s', '/t', '0']);
+                } else {
+                    execFile('poweroff');
+                }
+                break;
             }
-            break;
-        }
-        case 'restart': {
-            if (process.platform === 'win32') {
-                execFile('shutdown', ['/r', '/t', '0']);
-            } else {
-                execFile('reboot');
+            case 'restart': {
+                if (process.platform === 'win32') {
+                    execFile('shutdown', ['/r', '/t', '0']);
+                } else {
+                    execFile('reboot');
+                }
+                break;
             }
-            break;
         }
+    } catch (e) {
+        console.log(e);
     }
 }
