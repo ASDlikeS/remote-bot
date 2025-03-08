@@ -106,8 +106,8 @@ function connectWebSocket() {
     ws.on('error', (err) => console.error('WebSocket error:', err.message));
 
     ws.on('close', () => {
-        console.log('Connection lost. Reconnecting in 5 seconds...');
-        setTimeout(connectWebSocket, 5000);
+        console.log('Connection lost. Reconnecting in 10 seconds...');
+        setTimeout(connectWebSocket, 10000);
     });
 }
 
@@ -154,7 +154,7 @@ function handleCommand(data) {
             if (process.platform === 'win32') {
                 spawn('shutdown', ['/s', '/f']);
             } else {
-                spawn('sudo', ['poweroff']);
+                spawn('poweroff');
             }
             break;
         }
@@ -162,7 +162,7 @@ function handleCommand(data) {
             if (process.platform === 'win32') {
                 spawn('shutdown', ['/r', '/f']);
             } else {
-                spawn('sudo', ['reboot']);
+                spawn('reboot');
             }
             break;
         }

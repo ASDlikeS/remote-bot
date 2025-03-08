@@ -34,6 +34,6 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
         } catch (error) {
             clearInterval(timerInterval);
         }
-    }, 1000);
+    }, 5000);
 };
 3;

@@ -22,12 +22,15 @@ export const startText = `*Hello my dear friend, {name}*\\!\n
 🔥I'm your *__REMOTE CONTROLLING SYSTEM BOT__\\!*🔥\n
 ✅I can manage your Desktop remote, with having no problems\\!\n
 ✅This action will be done by using PowerShell script which you've seen below\n
-✅This bot supports only Windows OS\\!\n
-💡This bot will support another operating systems SOON\\.\\.\\.\n
-*__Download file with command: /file and run it on your computer__*\n\n
-⚠️ *WARNING⚠️: This file is for your system only and no other system\\. The developer is not responsible for your actions\\. This program is not intended as Malware or any other RemoteVirus\\. The program is intended only for your convenience to manage your system*\\.\\!\
+✅This bot supports 3 OS: Windows, Linux and MacOS\\!\n
+💡This bot will support unique command /bind very soon\\.\\.\\.\n
+*__Download file with command _below_ and run it on your computer__*\n\n
+                                               ⬇️⬇️⬇️
+                                            ➡️   */file*  ⬅️
+                                               ⬆️⬆️⬆️\n\n
+⚠️ *WARNING⚠️: This functionality is for your system only and no other system\\. The developer is not responsible for your actions\\. This program is not intended as Malware or any other RemoteVirus\\. The program is intended only for your convenience to manage your system*\\.\\!\
 
-Manuals for /manual command wait you\\.\\.\\.
+Manuals for /manuals command wait you\\.\\.\\.
 
 If you have any issues, feel free to contact me at
 🚀🚀🚀 __*||[ASD](https://t.me/React_Rogue)||*__ 🚀🚀🚀\n\n
@@ -113,7 +116,19 @@ export const myRemoteCommands = (isPremium: string) => {
 //------------------------------------------------------------
 
 // MANUALS FOR DOWNLOADING FILE ------------------------------
-export const manual = (os: string): string => {
-    return `smth#`; //TODO: Write manuals
+export const manual = (os: string): string | void => {
+    switch (os) {
+        case 'windows':
+            return `🎇 Thank you so much for being interested in my product 🐁. For windows systems, so far no problems with user connection have been detected. You only need 3 steps to connect:\n
+1️⃣ In the menu button, click on the /file command, and select windows system\n
+2️⃣ Download and run the file. <blockquote>(IMPORTANT: if you have any problems opening the file, please install <a href="https://nodejs.org/"> node.js </a> from the official website) if the problem persists let me know <a href="https://t.me/React_Rogue">ASD</a></blockquote>\n
+3️⃣ Run and connect to the remote server! 💟\n
+<b>All commands for remote access can be found under the command /my_remote</b>`;
+
+        case 'linux':
+            return `🎇 Thank you so much for being interested in my product 🐁. For linux systems, there may be problems with connecting users due to the fact that the file is written specifically for windows systems. However, I will try to solve these problems soon.`;
+        case 'macos':
+            return `🎇 Thank you so much for being interested in my product 🐁. For macOS systems, there may be problems with connecting users due to the fact that the file is written specifically for windows systems. However, I will try to solve these problems soon.`;
+    }
 };
 //------------------------------------------------------------

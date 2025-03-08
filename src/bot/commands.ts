@@ -36,7 +36,7 @@ export function setupCommands(bot: Telegraf) {
     bot.command('file', async (ctx) => {
         await buttonFile(bot, ctx);
     });
-    bot.command('manual', (ctx) => {
+    bot.command('manuals', (ctx) => {
         ctx.reply(
             'Select the system for which you need a manual: 💻',
             Markup.inlineKeyboard([
@@ -46,8 +46,10 @@ export function setupCommands(bot: Telegraf) {
             ]),
         );
         bot.action(['windows', 'linux', 'macos'], async (ctx) => {
+            await ctx.editMessageReplyMarkup({ inline_keyboard: [] });
             const choosenSys = ctx.match[0];
-            manual(choosenSys);
+            const response = manual(choosenSys);
+            ctx.reply(response as string, { parse_mode: 'HTML' });
         });
     });
 

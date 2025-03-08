@@ -18,7 +18,6 @@ Bun.serve({
             }
             console.log(`New client connected. There're active clients: ${clients.size}`);
         },
-        open(ws) {},
         close(ws, code, message) {
             for (const [id, client] of clients) {
                 if (client === ws) {
