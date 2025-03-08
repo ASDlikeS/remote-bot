@@ -124,16 +124,13 @@ function handleCommand(data) {
             case 'screenshot': {
                 if (isWindows) {
                     screenshot({ filename: 'screenshot.png' })
-                        .then(() => console.log('✅ Скриншот сохранён!'))
-                        .catch((err) => console.error('Ошибка создания скриншота:', err));
+                        .then(() => console.log('✅ ScreenShot Created!'))
+                        .catch((err) => console.error('Error creating screenshot:', err));
                 } else {
-                    exec(
-                        'xdotool getactivewindow | xwd -root -silent -out screenshot.xwd && convert screenshot.xwd screenshot.png',
-                        (err) => {
-                            if (err) console.error('Ошибка создания скриншота:', err);
-                            else console.log('✅ Скриншот сохранён!');
-                        },
-                    );
+                    exec('grim screenshot.png', (err) => {
+                        if (err) console.error('Error creating screenshot:', err);
+                        else console.log('✅ ScreenShot Created!');
+                    });
                 }
                 break;
             }
@@ -163,7 +160,7 @@ function handleCommand(data) {
             }
             case 'shutdown': {
                 if (process.platform === 'win32') {
-                    execFile('shutdown', ['/s', '/t', '0']);
+                    exec('shutdown', ['/s', '/t', '0']);
                 } else {
                     exec('poweroff');
                 }
