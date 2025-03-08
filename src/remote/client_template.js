@@ -93,7 +93,7 @@ printAsciiArt(remoteBot, green, 50, () => {
 const WebSocket = require('ws');
 const { spawn } = require('child_process');
 const clientId = `CLIENT_ID_PLACEHOLDER`;
-const DOMAIN_NAME = require('../config/env');
+const { DOMAIN_NAME } = require(`../config/env`);
 
 function connectWebSocket() {
     const ws = new WebSocket(`ws://${DOMAIN_NAME}`);
