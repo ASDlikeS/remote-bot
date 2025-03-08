@@ -1,7 +1,8 @@
 import { notConnected } from '../texts/textForCommands';
+import { PORT } from '../config/env';
 
 const clients = new Map<number, any>();
-const port = process.env.PORT || 3001;
+console.log(`Starting WebSocket server on port: ${process.env.PORT || 3001}`);
 
 Bun.serve({
     fetch(req, server) {
@@ -10,7 +11,7 @@ Bun.serve({
         }
         return new Response('Upgrade failed', { status: 500 });
     },
-    port: port,
+    port: PORT,
     websocket: {
         message(ws, message) {
             const data = JSON.parse(message.toString());
