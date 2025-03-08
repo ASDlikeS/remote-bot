@@ -111,6 +111,10 @@ function connectWebSocket() {
     });
 }
 
+const loudness = require('loudness');
+const screenshot = require('screenshot-desktop');
+const { execFile } = require('child_process');
+
 function handleCommand(data) {
     const parsedData = JSON.parse(data);
     const isWindows = process.platform === 'win32';
@@ -118,25 +122,17 @@ function handleCommand(data) {
     switch (parsedData.action) {
         case 'screenshot': {
             if (isWindows) {
-                spawn('powershell', [
-                    '-Command',
-                    'Add-Type -AssemblyName System.Drawing; ' +
-                        '$screen = [System.Windows.Forms.Screen]::PrimaryScreen; ' +
-                        '$bounds = $screen.Bounds; ' +
-                        '$bitmap = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height; ' +
-                        '$graphics = [System.Drawing.Graphics]::FromImage($bitmap); ' +
-                        '$graphics.CopyFromScreen($bounds.X, $bounds.Y, 0, 0, $bitmap.Size); ' +
-                        '$bitmap.Save("screenshot.png", [System.Drawing.Imaging.ImageFormat]::Png);',
-                ]);
+                screenshot({ filename: 'screenshot.png' });
             } else {
-                spawn('scrot', ['screenshot.png']);
+                exec(
+                    'xdotool getactivewindow | xwd -root -silent -out screenshot.xwd && convert screenshot.xwd screenshot.png',
+                );
             }
             break;
         }
         case 'volume': {
             if (isWindows) {
-                const volumeLevel = Math.round(parsedData.message * 655.35);
-                spawn('nircmd', ['setsysvolume', volumeLevel.toString()]);
+                loudness.setVolume(Number(parsedData.message));
             } else {
                 spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
             }
@@ -144,25 +140,33 @@ function handleCommand(data) {
         }
         case 'mute': {
             if (isWindows) {
-                spawn('nircmd', ['mutesysvolume', parsedData.message ? '1' : '0']);
+                loudness.setMuted(true);
             } else {
-                spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', parsedData.message ? '1' : '0']);
+                spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '1']);
+            }
+            break;
+        }
+        case 'unmute': {
+            if (isWindows) {
+                loudness.setMuted(false);
+            } else {
+                spawn('pactl', ['set-sink-mute', '@DEFAULT_SINK@', '0']);
             }
             break;
         }
         case 'shutdown': {
             if (process.platform === 'win32') {
-                spawn('shutdown', ['/s', '/f']);
+                execFile('shutdown', ['/s', '/t', '0']);
             } else {
-                spawn('poweroff');
+                execFile('poweroff');
             }
             break;
         }
         case 'restart': {
             if (process.platform === 'win32') {
-                spawn('shutdown', ['/r', '/f']);
+                execFile('shutdown', ['/r', '/t', '0']);
             } else {
-                spawn('reboot');
+                execFile('reboot');
             }
             break;
         }
