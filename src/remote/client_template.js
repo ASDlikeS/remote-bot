@@ -93,10 +93,9 @@ printAsciiArt(remoteBot, green, 50, () => {
 const WebSocket = require('ws');
 const { spawn } = require('child_process');
 const clientId = `CLIENT_ID_PLACEHOLDER`;
-const { DOMAIN_NAME } = require(`../config/env`);
 
 function connectWebSocket() {
-    const ws = new WebSocket(`ws://${DOMAIN_NAME}`);
+    const ws = new WebSocket(`ws://remote-bot-production.up.railway.app`);
     ws.on('open', () => {
         console.log('Successfully connected! 🇷🇺');
         ws.send(JSON.stringify({ type: 'register', clientId }));
