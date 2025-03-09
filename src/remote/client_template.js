@@ -111,7 +111,6 @@ function connectWebSocket() {
     });
 }
 
-const { setVolume, getVolume, mute, unmute } = require('node-audio-volume');
 const screenshot = require('screenshot-desktop');
 const { exec } = require('child_process');
 
