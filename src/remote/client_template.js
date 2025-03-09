@@ -116,6 +116,10 @@ const { exec } = require('child_process');
 function handleCommand(data) {
     const parsedData = JSON.parse(data);
     const isWindows = process.platform === 'win32';
+    //prettier-ignore
+    const volume = 'if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; $vol = ${volume} / 100; (Get-AudioDevice -Playback).Volume = $vol';
+    //prettier-ignore
+    const mute = 'if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; (Get-AudioDevice -Capture).Mute = $true';
 
     try {
         switch (parsedData.action) {
@@ -138,9 +142,12 @@ function handleCommand(data) {
             }
             case 'volume': {
                 if (isWindows) {
-                    const volume = Number(parsedData.message);
-                    exec(
-                        `powershell -Command "$ConfirmPreference = 'None'; "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; $vol = ${volume} / 100; (Get-AudioDevice -Playback).Volume = $vol"`,
+                    spawn(
+                        'powershell',
+                        ['Command', volume.replace('${volume}', parsedData.message)],
+                        {
+                            stdio: 'inherit',
+                        },
                     );
                 } else {
                     spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
@@ -149,9 +156,9 @@ function handleCommand(data) {
             }
             case 'mute': {
                 if (isWindows) {
-                    exec(
-                        `powershell -Command "$ConfirmPreference = 'None'; "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; (Get-AudioDevice -Capture).Mute = $true"`,
-                    );
+                    spawn('powershell', ['Command', mute], {
+                        stdio: 'inherit',
+                    });
                 } else {
                     spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '1']);
                 }
@@ -159,9 +166,9 @@ function handleCommand(data) {
             }
             case 'unmute': {
                 if (isWindows) {
-                    exec(
-                        `powershell -Command "$ConfirmPreference = 'None'; "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; (Get-AudioDevice -Capture).Mute = $false"`,
-                    );
+                    spawn('powershell', ['Command', mute.replace('$true', '$false')], {
+                        stdio: 'inherit',
+                    });
                 } else {
                     spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '0']);
                 }
