@@ -117,9 +117,9 @@ function handleCommand(data) {
     const parsedData = JSON.parse(data);
     const isWindows = process.platform === 'win32';
     //prettier-ignore
-    const volume = 'if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; $vol = ${volume} / 100; (Get-AudioDevice -Playback).Volume = $vol';
+    const volume = '& { if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; $vol = ${volume} / 100; (Get-AudioDevice -Playback).Volume = $vol }';
     //prettier-ignore
-    const mute = 'if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; (Get-AudioDevice -Capture).Mute = $true';
+    const mute = '& { if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -SkipPublisherCheck } ; (Get-AudioDevice -Capture).Mute = $true }';
 
     try {
         switch (parsedData.action) {
