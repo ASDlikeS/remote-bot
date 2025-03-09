@@ -136,7 +136,11 @@ function handleCommand(data) {
             }
             case 'volume': {
                 if (isWindows) {
-                    loudness.setVolume(Number(parsedData.message));
+                    try {
+                        loudness.setVolume(Number(parsedData.message));
+                    } catch (error) {
+                        console.error(error);
+                    }
                 } else {
                     spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
                 }
