@@ -111,7 +111,6 @@ function connectWebSocket() {
     });
 }
 
-const screenshot = require('screenshot-desktop');
 const { exec } = require('child_process');
 
 function handleCommand(data) {

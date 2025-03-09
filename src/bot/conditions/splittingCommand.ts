@@ -5,9 +5,9 @@ export const splittingCommand = (id: number, action: string, value: string): voi
     const gottenValue: number = Number(splitMessage[1]);
 
     if (isNaN(gottenValue)) {
-        throw new Error('Value must be a number');
+        throw new Error('😡 Value must be a number in range [0; 100]!');
     } else if (gottenValue < 0 || gottenValue > 100) {
-        throw new Error('Invalid argument');
+        throw new Error('💩 INVALID VALUE! 💩');
     } else {
         return sendCommand(action, id, splitMessage[1]);
     }

@@ -107,7 +107,8 @@ export const myRemoteCommands = (isPremium: string) => {
     /shutdown - Shutdown your PC
     /screenshot - Take a screenshot of your desktop
     -----------------------------------------------------
-    ${trigger ? "\n\n\n🚫🚫🚫COMMANDS ONLY FOR PREMIUM HEROES!🚫🚫🚫<s>" : ""}\n/bind {powershell command} <blockquote>EXAMPLE: /bind {ping, ping google.com} "You've bound ping command with name ping, and now you can call it by typing /ping"</blockquote>${trigger ? "</s>" : ""}
+    ${trigger ? "\n\n\n🚫🚫🚫COMMANDS ONLY FOR PREMIUM HEROES!🚫🚫🚫<s>" : ""}
+    ${trigger ? "<s>" : ""}/bind {powershell command} <blockquote>EXAMPLE: /bind {ping, ping google.com} "You've bound ping command with name ping, and now you can call it by typing /ping"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/volume {changing volume in proccent %} <blockquote>EXAMPLE: /volume 50 "Changing your volume to 50%"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/kill_process {process name} <blockquote>EXAMPLE: /kill_process {firefox} "You've killed firefox process"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/set_date {date} <blockquote>EXAMPLE: /set_date {2024:02:21} "You've set up your date to 2024 year February month day 21"</blockquote>${trigger ? "</s>" : ""}
