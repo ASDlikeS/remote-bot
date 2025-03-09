@@ -182,12 +182,12 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.command('unmute', (ctx) => {
-        try {
-            const response = sendCommand('unmute', ctx.from.id);
-            ctx.reply(response);
-        } catch (error) {
-            ctx.reply(error as string, { parse_mode: 'HTML' });
-        }
-    });
+    // bot.command('unmute', (ctx) => {
+    //     try {
+    //         const response = sendCommand('unmute', ctx.from.id);
+    //         ctx.reply(response);
+    //     } catch (error) {
+    //         ctx.reply(error as string, { parse_mode: 'HTML' });
+    //     }
+    // });
 }

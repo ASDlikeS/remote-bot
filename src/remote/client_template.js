@@ -111,7 +111,7 @@ function connectWebSocket() {
     });
 }
 
-const loudness = require('loudness');
+const { setVolume, getVolume, mute, unmute } = require('node-audio-volume');
 const screenshot = require('screenshot-desktop');
 const { exec } = require('child_process');
 
@@ -136,11 +136,12 @@ function handleCommand(data) {
             }
             case 'volume': {
                 if (isWindows) {
-                    try {
-                        loudness.setVolume(Number(parsedData.message));
-                    } catch (error) {
-                        console.error(error);
-                    }
+                    const volume = Number(parsedData.message);
+                    exec(
+                        `powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]175)"`.repeat(
+                            volume / 2,
+                        ),
+                    );
                 } else {
                     spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
                 }
@@ -148,23 +149,27 @@ function handleCommand(data) {
             }
             case 'mute': {
                 if (isWindows) {
-                    loudness.setMuted(true);
+                    exec(
+                        'powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"',
+                    );
                 } else {
                     spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '1']);
                 }
                 break;
             }
-            case 'unmute': {
-                if (isWindows) {
-                    loudness.setMuted(false);
-                } else {
-                    spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '0']);
-                }
-                break;
-            }
+            // case 'unmute': {
+            //     if (isWindows) {
+            //         exec(
+            //             'powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"',
+            //         );
+            //     } else {
+            //         spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '0']);
+            //     }
+            //     break;
+            // }
             case 'shutdown': {
                 if (process.platform === 'win32') {
-                    exec('shutdown', ['/s', '/t', '0']);
+                    exec('shutdown /s /t 0');
                 } else {
                     exec('poweroff');
                 }
@@ -172,7 +177,7 @@ function handleCommand(data) {
             }
             case 'restart': {
                 if (process.platform === 'win32') {
-                    exec('shutdown', ['/r', '/t', '0']);
+                    exec('shutdown /r /t 0');
                 } else {
                     exec('reboot');
                 }
