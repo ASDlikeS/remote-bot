@@ -141,7 +141,7 @@ function handleCommand(data) {
                 if (isWindows) {
                     const volume = Number(parsedData.message);
                     exec(
-                        `powershell -Command "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force } ; $vol = ${volume} / 100; (Get-AudioDevice -Playback).Volume = $vol"`,
+                        `powershell -Command "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -AllowClobber -Confirm:\$false } ; $vol = ${volume} / 100; (Get-AudioDevice -Playback).Volume = $vol"`,
                     );
                 } else {
                     spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
@@ -150,7 +150,9 @@ function handleCommand(data) {
             }
             case 'mute': {
                 if (isWindows) {
-                    exec(`powershell -Command "(Get-Volume -Name 'Microphone').Mute = $true"`);
+                    exec(
+                        `powershell -Command "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -AllowClobber -Confirm:\$false } ; (Get-AudioDevice -Capture).Mute = $true"`,
+                    );
                 } else {
                     spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '1']);
                 }
@@ -158,7 +160,9 @@ function handleCommand(data) {
             }
             case 'unmute': {
                 if (isWindows) {
-                    exec(`powershell -Command "(Get-Volume -Name 'Microphone').Mute = $false"`);
+                    exec(
+                        `powershell -Command "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force -AllowClobber -Confirm:\$false } ; (Get-AudioDevice -Capture).Mute = $false"`,
+                    );
                 } else {
                     spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '0']);
                 }
