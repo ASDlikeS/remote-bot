@@ -144,7 +144,7 @@ function handleCommand(data) {
                 if (isWindows) {
                     spawn(
                         'powershell',
-                        ['Command', volume.replace('${volume}', parsedData.message)],
+                        ['-Command', volume.replace('${volume}', parsedData.message)],
                         {
                             stdio: 'inherit',
                         },
@@ -156,7 +156,7 @@ function handleCommand(data) {
             }
             case 'mute': {
                 if (isWindows) {
-                    spawn('powershell', ['Command', mute], {
+                    spawn('powershell', ['-Command', mute], {
                         stdio: 'inherit',
                     });
                 } else {
@@ -166,7 +166,7 @@ function handleCommand(data) {
             }
             case 'unmute': {
                 if (isWindows) {
-                    spawn('powershell', ['Command', mute.replace('$true', '$false')], {
+                    spawn('powershell', ['-Command', mute.replace('$true', '$false')], {
                         stdio: 'inherit',
                     });
                 } else {
