@@ -122,9 +122,13 @@ function handleCommand(data) {
         switch (parsedData.action) {
             case 'screenshot': {
                 if (isWindows) {
-                    screenshot({ filename: 'screenshot.png' })
-                        .then(() => console.log('✅ ScreenShot Created!'))
-                        .catch((err) => console.error('Error creating screenshot:', err));
+                    exec(
+                        'powershell -Command "Add-Type -AssemblyName System.Windows.Forms; Add-Type -AssemblyName System.Drawing; $screen = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds; $bitmap = New-Object System.Drawing.Bitmap $screen.Width, $screen.Height; $graphics = [System.Drawing.Graphics]::FromImage($bitmap); $graphics.CopyFromScreen($screen.Location, [System.Drawing.Point]::Empty, $screen.Size); $bitmap.Save(\'screenshot.png\', [System.Drawing.Imaging.ImageFormat]::Png)"',
+                        (error) => {
+                            if (error) console.error('PowerShell Screenshot Failed:', error);
+                            else console.log('✅ PowerShell Screenshot Created!');
+                        },
+                    );
                 } else {
                     exec('grim screenshot.png', (err) => {
                         if (err) console.error('Error creating screenshot:', err);
@@ -137,9 +141,7 @@ function handleCommand(data) {
                 if (isWindows) {
                     const volume = Number(parsedData.message);
                     exec(
-                        `powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]175)"`.repeat(
-                            volume / 2,
-                        ),
+                        `powershell -Command "if (!(Get-Module -ListAvailable -Name AudioDeviceCmdlets)) { Install-Module -Name AudioDeviceCmdlets -Scope CurrentUser -Force } ; $vol = ${volume} / 100; (Get-AudioDevice -Playback).Volume = $vol"`,
                     );
                 } else {
                     spawn('pactl', ['set-sink-volume', '@DEFAULT_SINK@', `${parsedData.message}%`]);
@@ -148,24 +150,20 @@ function handleCommand(data) {
             }
             case 'mute': {
                 if (isWindows) {
-                    exec(
-                        'powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"',
-                    );
+                    exec(`powershell -Command "(Get-Volume -Name 'Microphone').Mute = $true"`);
                 } else {
                     spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '1']);
                 }
                 break;
             }
-            // case 'unmute': {
-            //     if (isWindows) {
-            //         exec(
-            //             'powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]173)"',
-            //         );
-            //     } else {
-            //         spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '0']);
-            //     }
-            //     break;
-            // }
+            case 'unmute': {
+                if (isWindows) {
+                    exec(`powershell -Command "(Get-Volume -Name 'Microphone').Mute = $false"`);
+                } else {
+                    spawn('pactl', ['set-source-mute', '@DEFAULT_SINK@', '0']);
+                }
+                break;
+            }
             case 'shutdown': {
                 if (process.platform === 'win32') {
                     exec('shutdown /s /t 0');
