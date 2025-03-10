@@ -166,7 +166,7 @@ function handleCommand(data, ws) {
             case 'screenshot': {
                 if (isWindows) {
                     exec(
-                        'powershell -Command "Add-Type -AssemblyName System.Windows.Forms; Add-Type -AssemblyName System.Drawing; $screen = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds; $bitmap = New-Object System.Drawing.Bitmap $screen.Width, $screen.Height; $graphics = [System.Drawing.Graphics]::FromImage($bitmap); $graphics.CopyFromScreen($screen.Location, [System.Drawing.Point]::Empty, $screen.Size); $bitmap.Save(\'screenshot.png\', [System.Drawing.Imaging.ImageFormat]::Png)"',
+                        'powershell -Command "Add-Type -AssemblyName System.Windows.Forms; Add-Type -AssemblyName System.Drawing; $screens = [System.Windows.Forms.Screen]::AllScreens; $bitmap = New-Object System.Drawing.Bitmap ([System.Windows.Forms.SystemInformation]::VirtualScreen.Width), ([System.Windows.Forms.SystemInformation]::VirtualScreen.Height); $graphics = [System.Drawing.Graphics]::FromImage($bitmap); foreach ($screen in $screens) { $graphics.CopyFromScreen($screen.Bounds.Location, $screen.Bounds.Location, $screen.Bounds.Size) }; $bitmap.Save(\'screenshot.png\', [System.Drawing.Imaging.ImageFormat]::Png)"',
                         (error) => {
                             error ? screenshot(false, ws) : screenshot(true, ws);
                         },
