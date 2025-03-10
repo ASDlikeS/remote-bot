@@ -1,5 +1,3 @@
-import { message } from 'telegraf/filters';
-
 const readline = require('readline');
 
 const green = '\x1b[32m'; // Green
@@ -99,6 +97,7 @@ const fs = require('fs');
 
 function connectWebSocket() {
     const ws = new WebSocket(`wss://remote-bot-production.up.railway.app`);
+    // const ws = new WebSocket('ws://localhost:3001');
     ws.on('open', () => {
         console.log('Successfully connected! 🇷🇺');
         ws.send(JSON.stringify({ type: 'register', clientId }));
@@ -132,7 +131,7 @@ function screenshot(bool, ws) {
                 ws.send(
                     JSON.stringify({
                         type: 'image',
-                        message: 'Error reading screenshot',
+                        message: 'Error reading screenshot Failed',
                         clientId,
                     }),
                 );

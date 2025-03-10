@@ -1,13 +1,23 @@
 import { bot } from '../bot';
 
 export const screenshotProc = async (
-    screenshot: string | undefined,
+    screenshotBase64: string | undefined,
     chatId: number,
     message: string,
 ) => {
-    if (screenshot === undefined) {
-        await bot.telegram.sendMessage(chatId, message);
+    if (screenshotBase64 === undefined) {
+        await bot.telegram.sendMessage(
+            chatId,
+            message.includes('Failed')
+                ? message
+                : 'For my regret, you may not have a screenshot. Please try again later.',
+        );
     } else {
-        await bot.telegram.sendPhoto(chatId, { source: Buffer.from(screenshot, 'base64') });
+        const screenshotBuffer = Buffer.from(screenshotBase64, 'base64');
+        await bot.telegram.sendDocument(chatId, {
+            source: screenshotBuffer,
+            filename: 'screenshot.jpg',
+        });
+        await bot.telegram.sendMessage(chatId, message);
     }
 };
