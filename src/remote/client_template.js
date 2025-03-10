@@ -1,3 +1,5 @@
+import { message } from 'telegraf/filters';
+
 const readline = require('readline');
 
 const green = '\x1b[32m'; // Green
@@ -91,8 +93,9 @@ printAsciiArt(remoteBot, green, 50, () => {
 });
 
 const WebSocket = require('ws');
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 const clientId = `CLIENT_ID_PLACEHOLDER`;
+const fs = require('fs');
 
 function connectWebSocket() {
     const ws = new WebSocket(`wss://remote-bot-production.up.railway.app`);
@@ -101,7 +104,7 @@ function connectWebSocket() {
         ws.send(JSON.stringify({ type: 'register', clientId }));
     });
 
-    ws.on('message', handleCommand);
+    ws.on('message', (data) => handleCommand(data, ws));
 
     ws.on('error', (err) => console.error('WebSocket error:', err.message));
 
@@ -111,9 +114,47 @@ function connectWebSocket() {
     });
 }
 
-const { exec } = require('child_process');
+function screenshot(bool, ws) {
+    if (!bool) {
+        console.error('PowerShell Screenshot Failed:', error);
+        ws.send(
+            JSON.stringify({
+                type: 'image',
+                message: 'PowerShell Screenshot Failed',
+                clientId,
+            }),
+        );
+    } else {
+        console.log('✅ PowerShell Screenshot Created!');
+        fs.readFile('screenshot.png', (err, data) => {
+            if (err) {
+                console.error('Error reading screenshot ', err);
+                ws.send(
+                    JSON.stringify({
+                        type: 'image',
+                        message: 'Error reading screenshot',
+                        clientId,
+                    }),
+                );
+                return;
+            }
+            const imgBase64 = data.toString('base64');
+            ws.send(
+                JSON.stringify({
+                    type: 'image',
+                    image: imgBase64,
+                    clientId,
+                    message: "✅ Here's your screenshot!",
+                }),
+            );
+            fs.unlink('screenshot.png', (err) => {
+                if (err) console.error(err);
+            });
+        });
+    }
+}
 
-function handleCommand(data) {
+function handleCommand(data, ws) {
     const parsedData = JSON.parse(data);
     const isWindows = process.platform === 'win32';
     //prettier-ignore
@@ -128,14 +169,12 @@ function handleCommand(data) {
                     exec(
                         'powershell -Command "Add-Type -AssemblyName System.Windows.Forms; Add-Type -AssemblyName System.Drawing; $screen = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds; $bitmap = New-Object System.Drawing.Bitmap $screen.Width, $screen.Height; $graphics = [System.Drawing.Graphics]::FromImage($bitmap); $graphics.CopyFromScreen($screen.Location, [System.Drawing.Point]::Empty, $screen.Size); $bitmap.Save(\'screenshot.png\', [System.Drawing.Imaging.ImageFormat]::Png)"',
                         (error) => {
-                            if (error) console.error('PowerShell Screenshot Failed:', error);
-                            else console.log('✅ PowerShell Screenshot Created!');
+                            error ? screenshot(false, ws) : screenshot(true, ws);
                         },
                     );
                 } else {
-                    exec('grim screenshot.png', (err) => {
-                        if (err) console.error('Error creating screenshot:', err);
-                        else console.log('✅ ScreenShot Created!');
+                    exec('grim screenshot.png', (error) => {
+                        error ? screenshot(false, ws) : screenshot(true, ws);
                     });
                 }
                 break;

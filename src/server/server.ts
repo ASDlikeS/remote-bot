@@ -1,5 +1,6 @@
 import { notConnected } from '../texts/textForCommands';
 import { PORT } from '../config/env';
+import { screenshotProc } from '../bot/microLogic/screenshotProc';
 
 const clients = new Map<number, any>();
 console.log(`Starting WebSocket server on port: ${process.env.PORT || 3001}`);
@@ -19,6 +20,13 @@ Bun.serve({
                 clients.set(Number(data.clientId), ws);
             }
             console.log(`New client connected. There're active clients: ${clients.size}`);
+
+            if (data.type === 'image') {
+                if (data.image) {
+                    screenshotProc(data.image, data.clientId, data.message);
+                }
+                screenshotProc((data.image = undefined), data.clientId, data.message);
+            }
         },
         close(ws, code, message) {
             for (const [id, client] of clients) {
