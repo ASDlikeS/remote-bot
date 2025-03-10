@@ -1,7 +1,4 @@
-import { Telegraf } from 'telegraf';
-import { TELEGRAM_TOKEN } from '../../config/env';
-
-const bot = new Telegraf(TELEGRAM_TOKEN);
+import { bot } from '../bot';
 
 export const screenshotProc = async (
     screenshot: string | undefined,

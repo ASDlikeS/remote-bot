@@ -4,7 +4,7 @@ import { setupCommands } from './commands.ts';
 import { premiumAllowsMiddleware } from './middleWare/premiumAllows.ts';
 import { usingAllowsMiddleware } from './middleWare/usingAllows.ts';
 
-const bot: Telegraf = new Telegraf(TELEGRAM_TOKEN as string);
+export const bot: Telegraf = new Telegraf(TELEGRAM_TOKEN as string);
 
 bot.use(usingAllowsMiddleware);
 bot.use(premiumAllowsMiddleware);
