@@ -97,10 +97,10 @@ export function setupCommands(bot: Telegraf) {
     });
 
     bot.command('help', (ctx) => {
-        ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
+        ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' });
     });
     bot.hears('Help ⚠️', (ctx) => {
-        ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
+        ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' });
     });
 
     bot.command('my_remote', async (ctx) => {
@@ -122,7 +122,6 @@ export function setupCommands(bot: Telegraf) {
     // Commands for Admins only
     //---------------------------------------------------------------------------------------------------------------------
     bot.command('promote_usr', async (ctx) => {
-        // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
             const gottenInfo = await grantingRights(ctx.from.id, ctx.message.text, 'promote');
             ctx.reply(gottenInfo as string);
@@ -131,7 +130,6 @@ export function setupCommands(bot: Telegraf) {
         }
     });
     bot.command('demote_usr', async (ctx) => {
-        // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
             const gottenInfo = await grantingRights(ctx.from.id, ctx.message.text, 'demote');
             ctx.reply(gottenInfo as string);
@@ -140,7 +138,6 @@ export function setupCommands(bot: Telegraf) {
         }
     });
     bot.command('add_time_usr', async (ctx) => {
-        // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
             const gottenInfo = await grantingRights(ctx.from.id, ctx.message.text, 'addTime');
             ctx.reply(gottenInfo as string);
