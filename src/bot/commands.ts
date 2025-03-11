@@ -15,6 +15,7 @@ import { premiumTimer } from './microLogic/dynamicTimer';
 import { isConnected, sendCommand } from '../server/server';
 import { splittingCommand } from './conditions/splittingCommand';
 import { buttonFile } from './microLogic/buttonsFIle';
+import { handleRemoteControl } from './appCommands/handleRemote';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
@@ -106,6 +107,9 @@ export function setupCommands(bot: Telegraf) {
     bot.command('contribution', (ctx) => {
         ctx.reply(contribution, { parse_mode: 'HTML' });
     });
+
+    bot.command('my_remote', (ctx) => handleRemoteControl(ctx));
+    bot.hears('Remote control 🚇', (ctx) => handleRemoteControl(ctx));
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for Admins only
     //---------------------------------------------------------------------------------------------------------------------

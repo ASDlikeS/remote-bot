@@ -1,9 +1,8 @@
 import { Context, Markup } from 'telegraf';
 import { checkIsPremium } from '../conditions/checkIsPremium';
-import { bot } from '../bot';
 import { myRemoteCommands } from '../../texts/textForCommands';
 
-const handleRemoteControl = async (ctx: Context) => {
+export const handleRemoteControl = async (ctx: Context) => {
     const myRemote = await checkIsPremium(ctx.from!.id);
     if (myRemote.includes('❌')) {
         ctx.reply(myRemoteCommands(myRemote), {
@@ -33,6 +32,3 @@ const handleRemoteControl = async (ctx: Context) => {
         });
     }
 };
-
-bot.command('my_remote', handleRemoteControl);
-bot.hears('Remote control 🚇', handleRemoteControl);
