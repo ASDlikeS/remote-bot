@@ -34,6 +34,19 @@ export function setupCommands(bot: Telegraf) {
             handleError(ctx, error as string);
         }
     });
+    bot.hears('Back to menu ↩️', async (ctx) => {
+        try {
+            ctx.reply(startText.replace('{name}', ctx.from.first_name), {
+                parse_mode: 'MarkdownV2',
+                ...Markup.keyboard([
+                    ['File 🖥️', 'Manuals 📝', 'Help ⚠️', 'Remote control 🚇', 'Premium ✨'],
+                ]).resize(),
+            });
+            await premiumTimer(ctx);
+        } catch (error) {
+            handleError(ctx, error as string);
+        }
+    });
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for File generation
     //---------------------------------------------------------------------------------------------------------------------

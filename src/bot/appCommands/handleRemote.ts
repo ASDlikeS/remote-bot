@@ -8,7 +8,13 @@ export const handleRemoteControl = async (ctx: Context) => {
         ctx.reply(myRemoteCommands(myRemote), {
             parse_mode: 'HTML',
             ...Markup.keyboard([
-                ['Check your connection 🔌', 'Power Off ⚡', 'Reboot ⚡', 'ScreenShot 🖼️'],
+                [
+                    'Check your connection 🔌',
+                    'Power Off ⚡',
+                    'Reboot ⚡',
+                    'Screenshot 📷',
+                    'Back to menu ↩️',
+                ],
             ])
                 .oneTime()
                 .resize(),
