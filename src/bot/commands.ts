@@ -16,6 +16,7 @@ import { isConnected, sendCommand } from '../server/server';
 import { splittingCommand } from './conditions/splittingCommand';
 import { buttonFile } from './microLogic/buttonsFIle';
 import { handleRemoteControl } from './appCommands/handleRemote';
+import { assert } from 'console';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
@@ -272,17 +273,7 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(`It's comming soon....💤`);
         } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
     });
-    bot.command('volume', async (ctx) => {
-        try {
-            const allowance = await checkIsPremium(ctx.from.id);
-            if (allowance.includes('✅')) {
-                const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
-                ctx.reply(response as string);
-            } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
-        } catch (err) {
-            ctx.reply(err as string);
-        }
-    });
+
     bot.command('mute', async (ctx) => {
         try {
             const allowance = await checkIsPremium(ctx.from.id);
@@ -294,6 +285,18 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
+    bot.hears('Mute 🚫🎙️', async (ctx) => {
+        try {
+            const allowance = await checkIsPremium(ctx.from.id);
+            if (allowance.includes('✅')) {
+                const response = sendCommand('mute', ctx.from.id);
+                ctx.reply(response);
+            } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
+        } catch (error) {
+            ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
+
     bot.command('unmute', async (ctx) => {
         try {
             const allowance = await checkIsPremium(ctx.from.id);
@@ -303,6 +306,57 @@ export function setupCommands(bot: Telegraf) {
             } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
+    bot.hears('Unmute 🎙️', async (ctx) => {
+        try {
+            const allowance = await checkIsPremium(ctx.from.id);
+            if (allowance.includes('✅')) {
+                const response = sendCommand('unmute', ctx.from.id);
+                ctx.reply(response);
+            } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
+        } catch (error) {
+            ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
+
+    bot.command('volume', async (ctx) => {
+        try {
+            const allowance = await checkIsPremium(ctx.from.id);
+            if (allowance.includes('✅')) {
+                const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
+                ctx.reply(response as string);
+            } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
+        } catch (err) {
+            ctx.reply(err as string);
+        }
+    });
+
+    const volumeLevels = ['100', '75', '50', '25', '0'];
+
+    bot.hears('Volume 🔊', async (ctx) => {
+        await ctx.reply(
+            `Press on any button below\nWrite correct variable in percentage\n\nExample /volume 50%`,
+            Markup.inlineKeyboard(
+                volumeLevels.map((level) => [
+                    Markup.button.callback(`Volume ${level}% 🔊`, `volume_${level}`),
+                ]),
+            ),
+        );
+    });
+
+    bot.action(/^volume_(\d+)$/, async (ctx) => {
+        try {
+            const volume = ctx.match[1];
+            const allowance = await checkIsPremium(ctx.from!.id);
+            if (allowance.includes('✅')) {
+                const response = splittingCommand(ctx.from!.id, 'volume', `/volume ${volume}`);
+                await ctx.reply(response as string);
+            } else {
+                await ctx.reply(notAllowed, { parse_mode: 'HTML' });
+            }
+        } catch (err) {
+            await ctx.reply(err as string);
         }
     });
 }

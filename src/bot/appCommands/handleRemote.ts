@@ -27,7 +27,7 @@ export const handleRemoteControl = async (ctx: Context) => {
                     'Check connection 🔌',
                     'Power Off ⚡',
                     'Reboot ⚡',
-                    'ScreenShot 🖼️',
+                    'Screenshot 📷',
                     'Volume 🔊',
                     'Mute 🚫🎙️',
                     'Unmute 🎙️',
