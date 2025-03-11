@@ -94,8 +94,8 @@ export const userIsPremium = async (id: number, value: boolean) => {
 };
 
 // USER ISN'T ALLOWED TO DO PREMIUM COMMANDS ---------------------
-export const notAllowed = `⛔⛔⛔<b>This command is available only for premium users</b>⛔⛔⛔
-You also can buy it, if you want to use all features\nFor more information type\n☑️ /info_about_premium
+export const notAllowed = `<b>This command is available only for premium users</b>\n⛔⛔⛔⛔⛔⛔⛔⛔⛔
+You still can buy premium, if you want to use all features\nFor more information type or press\n☑️ /info_about_premium\n
 Or you can do some c ontributions to the project for getting *FREE PREMIUM STATUS*.
 For more information type\n☑️ /contribution`;
 
