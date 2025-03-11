@@ -31,6 +31,7 @@ export const handleRemoteControl = async (ctx: Context) => {
                     'Volume 🔊',
                     'Mute 🚫🎙️',
                     'Unmute 🎙️',
+                    'Back to menu ↩️',
                 ],
             ])
                 .oneTime()
