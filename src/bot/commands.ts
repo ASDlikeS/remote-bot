@@ -226,12 +226,7 @@ export function setupCommands(bot: Telegraf) {
         }
     });
     bot.action('cancel_reboot', async (ctx) => {
-        try {
-            const response = sendCommand('restart', ctx.from.id);
-            ctx.reply(response);
-        } catch (error) {
-            ctx.reply(error as string, { parse_mode: 'HTML' });
-        }
+        await ctx.editMessageText('❌ Cancelled.');
     });
 
     bot.command('shutdown', async (ctx) => {
@@ -328,7 +323,7 @@ export function setupCommands(bot: Telegraf) {
                 ctx.reply(response as string);
             } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (err) {
-            ctx.reply(err as string);
+            ctx.reply(err as string, { parse_mode: 'HTML' });
         }
     });
 
@@ -336,7 +331,7 @@ export function setupCommands(bot: Telegraf) {
 
     bot.hears('Volume 🔊', async (ctx) => {
         await ctx.reply(
-            `Press on any button below\nWrite correct variable in percentage\n\nExample /volume 50%`,
+            `Press on any button below or\nWrite correct variable in percentage\n\nExample /volume 50%`,
             Markup.inlineKeyboard(
                 volumeLevels.map((level) => [
                     Markup.button.callback(`Volume ${level}% 🔊`, `volume_${level}`),
@@ -356,7 +351,7 @@ export function setupCommands(bot: Telegraf) {
                 await ctx.reply(notAllowed, { parse_mode: 'HTML' });
             }
         } catch (err) {
-            await ctx.reply(err as string);
+            await ctx.reply(err as string, { parse_mode: 'HTML' });
         }
     });
 }
