@@ -3,7 +3,8 @@ import { Context } from 'telegraf';
 import { errorRegistration } from '../texts/textForCommands';
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || 'postgres://postgres@localhost:5432/remote_bot',
+    connectionString:
+        process.env.DATABASE_PUBLIC_URL || 'postgres://postgres@localhost:5432/remote_bot',
     ssl: {
         rejectUnauthorized: false,
     },
