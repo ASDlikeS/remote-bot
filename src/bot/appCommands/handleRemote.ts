@@ -9,7 +9,7 @@ export const handleRemoteControl = async (ctx: Context) => {
             parse_mode: 'HTML',
             ...Markup.keyboard([
                 [
-                    'Check your connection 🔌',
+                    'Check connection 🔌',
                     'Power Off ⚡',
                     'Reboot ⚡',
                     'Screenshot 📷',
@@ -24,7 +24,7 @@ export const handleRemoteControl = async (ctx: Context) => {
             parse_mode: 'HTML',
             ...Markup.keyboard([
                 [
-                    'Check your connection 🔌',
+                    'Check connection 🔌',
                     'Power Off ⚡',
                     'Reboot ⚡',
                     'ScreenShot 🖼️',

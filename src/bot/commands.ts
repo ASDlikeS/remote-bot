@@ -169,7 +169,7 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.hears('Check your connection 🔌', (ctx) => {
+    bot.hears('Check connection 🔌', (ctx) => {
         try {
             const connected = isConnected(ctx.from.id);
             ctx.reply(connected);
@@ -206,7 +206,7 @@ export function setupCommands(bot: Telegraf) {
             ]),
         );
     });
-    bot.command('Reboot ⚡', async (ctx) => {
+    bot.hears('Reboot ⚡', async (ctx) => {
         await ctx.reply(
             '⚠️ Are you sure, that you want to shutdown? ⚠️',
             Markup.inlineKeyboard([
