@@ -24,6 +24,12 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
+            ctx.reply(
+                'Actions:',
+                Markup.keyboard([
+                    ['File 🖥️', 'Manuals 📝', 'Help ⚠️', 'Commands for remote control 🚇'],
+                ]).resize(),
+            );
             premiumTimer(ctx);
         } catch (error) {
             handleError(ctx, error as string);
@@ -36,6 +42,10 @@ export function setupCommands(bot: Telegraf) {
     bot.command('file', async (ctx) => {
         await buttonFile(bot, ctx);
     });
+    bot.hears('File 🖥️', async (ctx) => {
+        await buttonFile(bot, ctx);
+    });
+
     bot.command('manuals', (ctx) => {
         ctx.reply(
             'Select the system for which you need a manual: 💻',
@@ -52,7 +62,26 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(response as string, { parse_mode: 'HTML' });
         });
     });
+    bot.hears('Manuals 📝', (ctx) => {
+        ctx.reply(
+            'Select the system for which you need a manual: 💻',
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Windows 📝', 'windows')],
+                [Markup.button.callback('Linux 📝', 'linux')],
+                [Markup.button.callback('MacOS 📝', 'macos')],
+            ]),
+        );
+        bot.action(['windows', 'linux', 'macos'], async (ctx) => {
+            await ctx.editMessageReplyMarkup({ inline_keyboard: [] });
+            const choosenSys = ctx.match[0];
+            const response = manual(choosenSys);
+            ctx.reply(response as string, { parse_mode: 'HTML' });
+        });
+    });
 
+    //---------------------------------------------------------------------------------------------------------------------
+    // Commands for All users
+    //---------------------------------------------------------------------------------------------------------------------
     bot.command('premium', (ctx) => {
         try {
             premiumTimer(ctx);
@@ -63,6 +92,10 @@ export function setupCommands(bot: Telegraf) {
     bot.command('help', (ctx) => {
         ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
     });
+    bot.hears('Help ⚠️', (ctx) => {
+        ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
+    });
+
     bot.command('info_about_premium', (ctx) => {
         ctx.reply(infoAboutPrem, { parse_mode: 'HTML' });
     });
@@ -73,7 +106,10 @@ export function setupCommands(bot: Telegraf) {
         const myRemote = checkIsPremium(ctx.from.id);
         ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
     });
-
+    bot.hears('Commands for remote control 🚇', (ctx) => {
+        const myRemote = checkIsPremium(ctx.from.id);
+        ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
+    });
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for Admins only
     //---------------------------------------------------------------------------------------------------------------------
