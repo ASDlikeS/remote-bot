@@ -204,19 +204,19 @@ export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     bot.command('bind', async (ctx) => {
         const allowance = await checkIsPremium(ctx.from.id);
-        if (allowance.includes('❌')) {
-            ctx.reply(notAllowed);
+        if (allowance.includes('✅')) {
+            ctx.reply(`It's comming soon....💤`);
         }
-        ctx.reply(`It's comming soon....💤`);
+        ctx.reply(notAllowed, { parse_mode: 'HTML' });
     });
     bot.command('volume', async (ctx) => {
         try {
             const allowance = await checkIsPremium(ctx.from.id);
-            if (allowance.includes('❌')) {
-                ctx.reply(notAllowed);
+            if (allowance.includes('✅')) {
+                const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
+                ctx.reply(response as string);
             }
-            const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
-            ctx.reply(response as string);
+            ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (err) {
             ctx.reply(err as string);
         }
@@ -224,11 +224,11 @@ export function setupCommands(bot: Telegraf) {
     bot.command('mute', async (ctx) => {
         try {
             const allowance = await checkIsPremium(ctx.from.id);
-            if (allowance.includes('❌')) {
-                ctx.reply(notAllowed);
+            if (allowance.includes('✅')) {
+                const response = sendCommand('mute', ctx.from.id);
+                ctx.reply(response);
             }
-            const response = sendCommand('mute', ctx.from.id);
-            ctx.reply(response);
+            ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
@@ -236,11 +236,11 @@ export function setupCommands(bot: Telegraf) {
     bot.command('unmute', async (ctx) => {
         try {
             const allowance = await checkIsPremium(ctx.from.id);
-            if (allowance.includes('❌')) {
-                ctx.reply(notAllowed);
+            if (allowance.includes('✅')) {
+                const response = sendCommand('unmute', ctx.from.id);
+                ctx.reply(response);
             }
-            const response = sendCommand('unmute', ctx.from.id);
-            ctx.reply(response);
+            ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
