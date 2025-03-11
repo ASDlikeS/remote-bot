@@ -26,7 +26,7 @@ export const startText = `*Hello my dear friend, {name}*\\!\n
 💡This bot will support unique command  /bind very soon\\.\\.\\.\n
 *__Download file with command _below_ and run it on your computer__*\n\n
             ⬇️⬇️⬇️
-         ➡️  */file*  ⬅️
+          ➡️ */file*  ⬅️
             ⬆️⬆️⬆️\n\n
 ⚠️ *WARNING⚠️: This functionality is for your system only and no other system\\. The developer is not responsible for your actions\\. This program is not intended as Malware or any other RemoteVirus\\. The program is intended only for your convenience to manage your system*\\.\\!\
 
