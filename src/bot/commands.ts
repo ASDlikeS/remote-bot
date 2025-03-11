@@ -270,8 +270,7 @@ export function setupCommands(bot: Telegraf) {
         const allowance = await checkIsPremium(ctx.from.id);
         if (allowance.includes('✅')) {
             ctx.reply(`It's comming soon....💤`);
-        }
-        ctx.reply(notAllowed, { parse_mode: 'HTML' });
+        } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
     });
     bot.command('volume', async (ctx) => {
         try {
@@ -279,8 +278,7 @@ export function setupCommands(bot: Telegraf) {
             if (allowance.includes('✅')) {
                 const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
                 ctx.reply(response as string);
-            }
-            ctx.reply(notAllowed, { parse_mode: 'HTML' });
+            } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (err) {
             ctx.reply(err as string);
         }
@@ -291,8 +289,7 @@ export function setupCommands(bot: Telegraf) {
             if (allowance.includes('✅')) {
                 const response = sendCommand('mute', ctx.from.id);
                 ctx.reply(response);
-            }
-            ctx.reply(notAllowed, { parse_mode: 'HTML' });
+            } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
@@ -303,8 +300,7 @@ export function setupCommands(bot: Telegraf) {
             if (allowance.includes('✅')) {
                 const response = sendCommand('unmute', ctx.from.id);
                 ctx.reply(response);
-            }
-            ctx.reply(notAllowed, { parse_mode: 'HTML' });
+            } else ctx.reply(notAllowed, { parse_mode: 'HTML' });
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
