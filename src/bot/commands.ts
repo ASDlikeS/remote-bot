@@ -19,23 +19,22 @@ export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for All Users
     //---------------------------------------------------------------------------------------------------------------------
-    bot.start((ctx) => {
+    bot.start(async (ctx) => {
         try {
             ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
             });
+            await premiumTimer(ctx);
             ctx.reply(
-                'Actions:',
+                'Choose one of the options below. If you don\'t know what to do, click on the "Help" option',
                 Markup.keyboard([
                     ['File 🖥️', 'Manuals 📝', 'Help ⚠️', 'Commands for remote control 🚇'],
                 ]).resize(),
             );
-            premiumTimer(ctx);
         } catch (error) {
             handleError(ctx, error as string);
         }
     });
-
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for File generation
     //---------------------------------------------------------------------------------------------------------------------
@@ -78,13 +77,12 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(response as string, { parse_mode: 'HTML' });
         });
     });
-
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for All users
     //---------------------------------------------------------------------------------------------------------------------
-    bot.command('premium', (ctx) => {
+    bot.command('premium', async (ctx) => {
         try {
-            premiumTimer(ctx);
+            await premiumTimer(ctx);
         } catch (error) {
             handleError(ctx, error as string);
         }
@@ -102,47 +100,47 @@ export function setupCommands(bot: Telegraf) {
     bot.command('contribution', (ctx) => {
         ctx.reply(contribution, { parse_mode: 'HTML' });
     });
-    bot.command('my_remote', (ctx) => {
-        const myRemote = checkIsPremium(ctx.from.id);
+    bot.command('my_remote', async (ctx) => {
+        const myRemote = await checkIsPremium(ctx.from.id);
         ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
     });
-    bot.hears('Commands for remote control 🚇', (ctx) => {
-        const myRemote = checkIsPremium(ctx.from.id);
+    bot.hears('Commands for remote control 🚇', async (ctx) => {
+        const myRemote = await checkIsPremium(ctx.from.id);
         ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
     });
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for Admins only
     //---------------------------------------------------------------------------------------------------------------------
-    bot.command('promote_usr', (ctx) => {
+    bot.command('promote_usr', async (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
-            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'promote');
+            const gottenInfo = await grantingRights(ctx.from.id, ctx.message.text, 'promote');
             ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.command('demote_usr', (ctx) => {
+    bot.command('demote_usr', async (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
-            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'demote');
+            const gottenInfo = await grantingRights(ctx.from.id, ctx.message.text, 'demote');
             ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.command('add_time_usr', (ctx) => {
+    bot.command('add_time_usr', async (ctx) => {
         // TODO: DEDUCE FUNCTIONALITY IN SEPARATE FILE
         try {
-            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'addTime');
+            const gottenInfo = await grantingRights(ctx.from.id, ctx.message.text, 'addTime');
             ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.command('ban_usr', (ctx) => {
+    bot.command('ban_usr', async (ctx) => {
         try {
-            const gottenInfo = grantingRights(ctx.from.id, ctx.message.text, 'ban');
+            const gottenInfo = await grantingRights(ctx.from.id, ctx.message.text, 'ban');
             ctx.reply(gottenInfo as string);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });

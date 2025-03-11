@@ -7,11 +7,8 @@ interface UserInfo {
     additionTimeHrs: number;
     message: string;
 }
-
-export const checkGrantingRight = (
-    idWhoGivesRights: number,
-    idToWhomGiveRights: string,
-): UserInfo | void => {
+//prettier-ignore
+export const checkGrantingRight = async (idWhoGivesRights: number, idToWhomGiveRights: string): Promise<UserInfo> => {
     if (idWhoGivesRights !== Number(ADMIN_ID)) {
         throw Error(
             "🔴 <b>The process was forcibly stopped.</b> <pre>You don't have enough permissions to do this action! You aren't an admin.</pre>",
@@ -31,7 +28,7 @@ export const checkGrantingRight = (
         );
     } else if (!additionTimeHrs || additionTimeHrs <= 0 || additionTimeHrs > 1000) {
         additionTimeHrs = 1;
-        const userInfo = getUserInfo(userId);
+        const userInfo = await getUserInfo(userId);
         const userName: string = userInfo.user_name;
         const message: string = `❗ You haven't given any time for user ${userName}. So user ${userName} was been granted premium status for 🕙 1 hour.`;
         return {
@@ -41,7 +38,7 @@ export const checkGrantingRight = (
             message,
         };
     } else {
-        const userInfo = getUserInfo(userId);
+        const userInfo = await getUserInfo(userId);
         const userName: string = userInfo.user_name;
         const message: string = `📳 You have given for user ${userName} - 🕐 ${additionTimeHrs} hours.`;
         return {

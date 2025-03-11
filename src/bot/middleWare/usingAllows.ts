@@ -5,7 +5,7 @@ import { registerUser } from '../../database/db';
 export const usingAllowsMiddleware: MiddlewareFn<Context> = async (ctx, next) => {
     try {
         if (ctx && ctx.from) {
-            registerUser(ctx);
+            await registerUser(ctx);
             checkIsBanned(ctx.from.id);
         }
         await next();

@@ -2,8 +2,8 @@ import type { Context } from 'telegraf';
 import { checkIsPremium } from '../conditions/checkIsPremium';
 
 export const premiumTimer = async (ctx: Context): Promise<void> => {
-    const initialText = checkIsPremium(ctx.from!.id);
-    const sentMessage = await ctx.reply(checkIsPremium(ctx.from!.id), { parse_mode: 'HTML' });
+    const initialText = await checkIsPremium(ctx.from!.id);
+    const sentMessage = await ctx.reply(initialText, { parse_mode: 'HTML' });
 
     if (initialText.includes('❌')) {
         return;
@@ -21,7 +21,7 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
     }
     const timerInterval = setInterval(async () => {
         try {
-            const newTime = checkIsPremium(ctx.from!.id);
+            const newTime = await checkIsPremium(ctx.from!.id);
             if (newTime.includes('✅')) {
                 await ctx.telegram.editMessageText(chatId, messageId, undefined, newTime, {
                     parse_mode: 'HTML',
@@ -36,4 +36,3 @@ export const premiumTimer = async (ctx: Context): Promise<void> => {
         }
     }, 5000);
 };
-3;

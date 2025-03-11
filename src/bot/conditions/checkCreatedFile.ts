@@ -1,7 +1,7 @@
 import { getUserInfo, setUserCreatedFile } from '../../database/db';
 
-export const checkCreatedFile = (id: number) => {
-    const userInfo = getUserInfo(id);
+export const checkCreatedFile = async (id: number): Promise<string> => {
+    const userInfo = await getUserInfo(id);
 
     const currentDateMs: number = Date.now();
     const elapsedTime: number = currentDateMs - userInfo.time_created_file;
@@ -12,14 +12,14 @@ export const checkCreatedFile = (id: number) => {
     const seconds = Math.floor((remainingTimeMs % (1000 * 60)) / 1000);
 
     if (userInfo.time_created_file === 0) {
-        setUserCreatedFile(id);
+        await setUserCreatedFile(id);
         return `⚡⚡⚡ ${userInfo.user_name} you've created a file! You'll be able to create another one in <b>♻️ 30 minutes ♻️</b> 👀.`;
     } else if (elapsedTime <= totalTimeMs) {
         throw new Error(
             `🔴🔴🔴 😖 I'm sorry but you can't create more files yet... <b>Remaining time: 🕙${minutes}:${seconds}🕙</b> 🔴🔴🔴`,
         );
     } else {
-        setUserCreatedFile(id);
+        await setUserCreatedFile(id);
         return '⚡⚡⚡ You have successfully created your file again. Enjoy it! So You`ll be able to create another one in ♻️ 30 minutes ♻️ 👀';
     }
 };

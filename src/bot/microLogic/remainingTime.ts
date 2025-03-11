@@ -7,8 +7,8 @@ interface TUserRemainingTime {
     seconds: number;
 }
 
-export const remainingTime = (id: number): TUserRemainingTime => {
-    const userInfo = getUserInfo(id);
+export const remainingTime = async (id: number): Promise<TUserRemainingTime> => {
+    const userInfo = await getUserInfo(id);
 
     const currentDateMs = Date.now();
     const elapsedTime = currentDateMs - userInfo.registered_prem_time_ms;

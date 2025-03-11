@@ -6,9 +6,9 @@ import { errorRegistration } from '../../texts/textForCommands';
 export const premiumAllowsMiddleware: MiddlewareFn<Context> = async (ctx, next) => {
     try {
         if (ctx && ctx.from) {
-            const user = remainingTime(ctx.from.id);
+            const user = await remainingTime(ctx.from.id);
             if (!user.days && !user.hours && !user.minutes && !user.seconds) {
-                setDemoteUser(ctx.from.id);
+                await setDemoteUser(ctx.from.id);
             }
         } else {
             throw new Error(errorRegistration);

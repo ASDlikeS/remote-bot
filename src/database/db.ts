@@ -3,10 +3,10 @@ import { Context } from 'telegraf';
 import { errorRegistration } from '../texts/textForCommands';
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false,
-    },
+    connectionString: process.env.DATABASE_URL || 'postgres://postgres@localhost:5432/remote_bot',
+    // ssl: {
+    //     rejectUnauthorized: false,
+    // },
 });
 
 interface User {
@@ -89,7 +89,7 @@ export const setDemoteUser = async (telegramId: number): Promise<void> => {
     await pool.query(
         `UPDATE users
          SET is_premium = FALSE, total_time_ms = 0, registered_prem_time_ms = 0
-         WHERE telegram_id = 1$`,
+         WHERE telegram_id = $1`,
         [telegramId],
     );
 };

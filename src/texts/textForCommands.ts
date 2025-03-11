@@ -63,7 +63,11 @@ export const helpMessage = `If you have any questions, please contact me at
 // /premium \\- Check your status now
 // /info\\_about\\_premium \\- Info about premium status
 // /contribution \\- Contribution to the project for getting *FREE PREMIUM STATUS*
-// /my\\_remote \\- Listing remote commands for your *PC*`;
+// /my\\_remote \\- Listing remote commands for your *PC*
+// /manuals \\- Manuals for downloading file
+// /file \\- File download link
+// /connect \\- Connect to remote bot
+/////////////////////////////////////////////////////////////`;
 
 export const errorRegistration = `<b>🚫To my great regret. You can't use the bot because, your data is not registered in database. Please contact with me. I am always open to reports🚫<a href="https://t.me/React_Rogue">DEVELOPER ASD</a></b>`;
 
@@ -80,8 +84,8 @@ export const contribution = `<b>✌️ Contributions is a great way to use all b
 <a href="https://github.com/ASDlikeS/remote-bot">WELCOME TO MY GITHUB REPOSITORY</a>`;
 
 // CHECKING PREMIUM STATUS OF USER ---------------------------
-export const userIsPremium = (id: number, value: boolean) => {
-    const time = remainingTime(id);
+export const userIsPremium = async (id: number, value: boolean) => {
+    const time = await remainingTime(id);
     if (value) {
         return `✅<b>Your account has a premium status</b>\n\n<blockquote>Your premium status will expire after ${time.days}ds ${time.hours}hrs ${time.minutes}min ${time.seconds}s</blockquote>\nFor using your remote controlling system <b>Write this commands</b>: ☑️/my_remote`;
     } else {
@@ -113,6 +117,7 @@ export const myRemoteCommands = (isPremium: string) => {
     ${trigger ? "<s>" : ""}/kill_process {process name} <blockquote>EXAMPLE: /kill_process {firefox} "You've killed firefox process"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/mute - Mute your Headphones${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/unmute - Unmute your Headphones${trigger ? "</s>" : ""}
+
     `;
 }
 //------------------------------------------------------------
