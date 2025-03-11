@@ -175,6 +175,14 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
+    bot.hears('Screenshot 📷', (ctx) => {
+        try {
+            const response = sendCommand('screenshot', ctx.from.id);
+            ctx.reply(response);
+        } catch (error) {
+            ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
 
     bot.command('restart', async (ctx) => {
         await ctx.reply(
