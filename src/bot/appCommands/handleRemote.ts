@@ -3,7 +3,7 @@ import { checkIsPremium } from '../conditions/checkIsPremium';
 import { bot } from '../bot';
 import { myRemoteCommands } from '../../texts/textForCommands';
 
-export const handleRemoteControl = async (ctx: Context) => {
+const handleRemoteControl = async (ctx: Context) => {
     const myRemote = await checkIsPremium(ctx.from!.id);
     if (myRemote.includes('❌')) {
         ctx.reply(myRemoteCommands(myRemote), {
