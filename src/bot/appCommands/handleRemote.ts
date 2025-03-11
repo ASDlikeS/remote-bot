@@ -15,9 +15,7 @@ export const handleRemoteControl = async (ctx: Context) => {
                     'Screenshot 📷',
                     'Back to menu ↩️',
                 ],
-            ])
-                .oneTime()
-                .resize(),
+            ]).oneTime(),
         });
     } else {
         ctx.reply(myRemoteCommands(myRemote), {
@@ -33,9 +31,7 @@ export const handleRemoteControl = async (ctx: Context) => {
                     'Unmute 🎙️',
                     'Back to menu ↩️',
                 ],
-            ])
-                .oneTime()
-                .resize(),
+            ]).oneTime(),
         });
     }
 };
