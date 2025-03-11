@@ -96,8 +96,8 @@ export const userIsPremium = async (id: number, value: boolean) => {
 // USER ISN'T ALLOWED TO DO PREMIUM COMMANDS ---------------------
 export const notAllowed = `<b>This command is available only for premium users</b>\n⛔⛔⛔⛔⛔⛔⛔⛔⛔
 You still can buy premium, if you want to use all features\nFor more information type or press\n☑️ /info_about_premium\n
-Or you can do some c ontributions to the project for getting *FREE PREMIUM STATUS*.
-For more information type\n☑️ /contribution`;
+<blockquote>Or you can do some contributions to the project for getting *FREE PREMIUM STATUS*.
+For more information type\n☑️ /contribution</blockquote>`;
 
 //CHECKING USER CONNECTION -----------------------------------
 export const notConnected = `🚫 You aren't connected with remote bot🚫\nPlease connect first, using command /connect. If you have some issues with this. Feel free to contact me <a href="https://t.me/React_Rogue">@ASD</a>`;
