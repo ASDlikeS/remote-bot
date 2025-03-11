@@ -4,9 +4,9 @@ import { errorRegistration } from '../texts/textForCommands';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL || 'postgres://postgres@localhost:5432/remote_bot',
-    // ssl: {
-    //     rejectUnauthorized: false,
-    // },
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
 interface User {
