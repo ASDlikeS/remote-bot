@@ -9,6 +9,7 @@ import {
     contribution,
     myRemoteCommands,
     manual,
+    notAllowed,
 } from '../texts/textForCommands';
 import { premiumTimer } from './microLogic/dynamicTimer';
 import { isConnected, sendCommand } from '../server/server';
@@ -28,7 +29,7 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(
                 'Choose one of the options below. If you don\'t know what to do, click on the "Help" option',
                 Markup.keyboard([
-                    ['File 🖥️', 'Manuals 📝', 'Help ⚠️', 'Commands for remote control 🚇'],
+                    ['File 🖥️', 'Manuals 📝', 'Help ⚠️', 'Remote control 🚇', 'Premium ✨'],
                 ]).resize(),
             );
         } catch (error) {
@@ -87,6 +88,14 @@ export function setupCommands(bot: Telegraf) {
             handleError(ctx, error as string);
         }
     });
+    bot.hears('Premium ✨', async (ctx) => {
+        try {
+            await premiumTimer(ctx);
+        } catch (error) {
+            handleError(ctx, error as string);
+        }
+    });
+
     bot.command('help', (ctx) => {
         ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
     });
@@ -94,19 +103,20 @@ export function setupCommands(bot: Telegraf) {
         ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' }); // Send Help Message to the Chat
     });
 
+    bot.command('my_remote', async (ctx) => {
+        const myRemote = await checkIsPremium(ctx.from.id);
+        ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
+    });
+    bot.hears('Remote control 🚇', async (ctx) => {
+        const myRemote = await checkIsPremium(ctx.from.id);
+        ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
+    });
+
     bot.command('info_about_premium', (ctx) => {
         ctx.reply(infoAboutPrem, { parse_mode: 'HTML' });
     });
     bot.command('contribution', (ctx) => {
         ctx.reply(contribution, { parse_mode: 'HTML' });
-    });
-    bot.command('my_remote', async (ctx) => {
-        const myRemote = await checkIsPremium(ctx.from.id);
-        ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
-    });
-    bot.hears('Commands for remote control 🚇', async (ctx) => {
-        const myRemote = await checkIsPremium(ctx.from.id);
-        ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
     });
     //---------------------------------------------------------------------------------------------------------------------
     // Commands for Admins only
@@ -146,7 +156,6 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-
     //---------------------------------------------------------------------------------------------------------------------
     // Command for connect;
     //---------------------------------------------------------------------------------------------------------------------
@@ -196,28 +205,43 @@ export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
     // COMMANDS FOR PREMIUM USERS ONLY
     //---------------------------------------------------------------------------------------------------------------------
-
-    bot.command('bind', (ctx) => {
+    bot.command('bind', async (ctx) => {
+        const allowance = await checkIsPremium(ctx.from.id);
+        if (allowance.includes('❌')) {
+            ctx.reply(notAllowed);
+        }
         ctx.reply(`It's comming soon....💤`);
     });
-    bot.command('volume', (ctx) => {
+    bot.command('volume', async (ctx) => {
         try {
+            const allowance = await checkIsPremium(ctx.from.id);
+            if (allowance.includes('❌')) {
+                ctx.reply(notAllowed);
+            }
             const response = splittingCommand(ctx.from.id, 'volume', ctx.message.text);
             ctx.reply(response as string);
         } catch (err) {
             ctx.reply(err as string);
         }
     });
-    bot.command('mute', (ctx) => {
+    bot.command('mute', async (ctx) => {
         try {
+            const allowance = await checkIsPremium(ctx.from.id);
+            if (allowance.includes('❌')) {
+                ctx.reply(notAllowed);
+            }
             const response = sendCommand('mute', ctx.from.id);
             ctx.reply(response);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.command('unmute', (ctx) => {
+    bot.command('unmute', async (ctx) => {
         try {
+            const allowance = await checkIsPremium(ctx.from.id);
+            if (allowance.includes('❌')) {
+                ctx.reply(notAllowed);
+            }
             const response = sendCommand('unmute', ctx.from.id);
             ctx.reply(response);
         } catch (error) {

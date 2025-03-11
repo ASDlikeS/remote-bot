@@ -25,9 +25,9 @@ export const startText = `*Hello my dear friend, {name}*\\!\n
 ✅This bot supports 3 OS: Windows, Linux and MacOS\\!\n
 💡This bot will support unique command /bind very soon\\.\\.\\.\n
 *__Download file with command _below_ and run it on your computer__*\n\n
-                                               ⬇️⬇️⬇️
-                                            ➡️   */file*  ⬅️
-                                               ⬆️⬆️⬆️\n\n
+            ⬇️⬇️⬇️
+         ➡️  */file* ⬅️
+            ⬆️⬆️⬆️\n\n
 ⚠️ *WARNING⚠️: This functionality is for your system only and no other system\\. The developer is not responsible for your actions\\. This program is not intended as Malware or any other RemoteVirus\\. The program is intended only for your convenience to manage your system*\\.\\!\
 
 Manuals for /manuals command wait you\\.\\.\\.
@@ -93,6 +93,12 @@ export const userIsPremium = async (id: number, value: boolean) => {
     }
 };
 
+// USER ISN'T ALLOWED TO DO PREMIUM COMMANDS ---------------------
+export const notAllowed = `⛔⛔⛔<b>This command is available only for premium users</b>⛔⛔⛔
+You also can buy it, if you want to use all features\nFor more information type\n☑️ /info_about_premium
+Or you can do some c ontributions to the project for getting *FREE PREMIUM STATUS*.
+For more information type\n☑️ /contribution`;
+
 //CHECKING USER CONNECTION -----------------------------------
 export const notConnected = `🚫 You aren't connected with remote bot🚫\nPlease connect first, using command /connect. If you have some issues with this. Feel free to contact me <a href="https://t.me/React_Rogue">@ASD</a>`;
 
@@ -106,18 +112,17 @@ export const myRemoteCommands = (isPremium: string) => {
     let trigger: boolean = false;
     Boolean(isPremium.includes('❌')) ? trigger = true : false;
     return `<b><u>Here's your personal remote commands:</u></b>
-    /close - Close current window
     /restart - Restart your PC
     /shutdown - Shutdown your PC
     /screenshot - Take a screenshot of your desktop
-    -----------------------------------------------------
+    -----------------------------------------
     ${trigger ? "\n\n\n🚫🚫🚫COMMANDS ONLY FOR PREMIUM HEROES!🚫🚫🚫" : ""}
     ${trigger ? "<s>" : ""}/bind {powershell command} <blockquote>EXAMPLE: /bind {ping, ping google.com} "You've bound ping command with name ping, and now you can call it by typing /ping"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/volume {changing volume in proccent %} <blockquote>EXAMPLE: /volume 50 "Changing your volume to 50%"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/kill_process {process name} <blockquote>EXAMPLE: /kill_process {firefox} "You've killed firefox process"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/mute - Mute your Headphones${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/unmute - Unmute your Headphones${trigger ? "</s>" : ""}
-
+    ${trigger ? "<s>" : ""}/close - Close current window${trigger ? "</s>" : ""}
     `;
 }
 //------------------------------------------------------------
