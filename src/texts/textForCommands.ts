@@ -122,7 +122,6 @@ export const myRemoteCommands = (isPremium: string) => {
     ${trigger ? "<s>" : ""}/kill_process {process name} <blockquote>EXAMPLE: /kill_process {firefox} "You've killed firefox process"</blockquote>${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/mute - Mute your Headphones${trigger ? "</s>" : ""}
     ${trigger ? "<s>" : ""}/unmute - Unmute your Headphones${trigger ? "</s>" : ""}
-    ${trigger ? "<s>" : ""}/close - Close current window${trigger ? "</s>" : ""}
     `;
 }
 //------------------------------------------------------------

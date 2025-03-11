@@ -24,14 +24,11 @@ export function setupCommands(bot: Telegraf) {
         try {
             ctx.reply(startText.replace('{name}', ctx.from.first_name), {
                 parse_mode: 'MarkdownV2',
-            });
-            await premiumTimer(ctx);
-            ctx.reply(
-                'Choose one of the options below. If you don\'t know what to do, click on the "Help" option',
-                Markup.keyboard([
+                ...Markup.keyboard([
                     ['File 🖥️', 'Manuals 📝', 'Help ⚠️', 'Remote control 🚇', 'Premium ✨'],
                 ]).resize(),
-            );
+            });
+            await premiumTimer(ctx);
         } catch (error) {
             handleError(ctx, error as string);
         }
@@ -103,15 +100,6 @@ export function setupCommands(bot: Telegraf) {
         ctx.reply(helpMessage, { parse_mode: 'MarkdownV2' });
     });
 
-    bot.command('my_remote', async (ctx) => {
-        const myRemote = await checkIsPremium(ctx.from.id);
-        ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
-    });
-    bot.hears('Remote control 🚇', async (ctx) => {
-        const myRemote = await checkIsPremium(ctx.from.id);
-        ctx.reply(myRemoteCommands(myRemote), { parse_mode: 'HTML' });
-    });
-
     bot.command('info_about_premium', (ctx) => {
         ctx.reply(infoAboutPrem, { parse_mode: 'HTML' });
     });
@@ -164,6 +152,14 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
+    bot.hears('Check your connection 🔌', (ctx) => {
+        try {
+            const connected = isConnected(ctx.from.id);
+            ctx.reply(connected);
+        } catch (error) {
+            ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
     //---------------------------------------------------------------------------------------------------------------------
     // FREE COMMANDS FOR ALL USERS
     //---------------------------------------------------------------------------------------------------------------------
@@ -175,15 +171,27 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.command('close', (ctx) => {
-        try {
-            const response = sendCommand('close', ctx.from.id);
-            ctx.reply(response);
-        } catch (error) {
-            ctx.reply(error as string, { parse_mode: 'HTML' });
-        }
+
+    bot.command('restart', async (ctx) => {
+        await ctx.reply(
+            '⚠️ Are you sure, that you want to shutdown? ⚠️',
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Yes 👍', 'confirm_reboot')],
+                [Markup.button.callback('No 👎', 'cancel_reboot')],
+            ]),
+        );
     });
-    bot.command('restart', (ctx) => {
+    bot.command('Reboot ⚡', async (ctx) => {
+        await ctx.reply(
+            '⚠️ Are you sure, that you want to shutdown? ⚠️',
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Yes 👍', 'confirm_reboot')],
+                [Markup.button.callback('No 👎', 'cancel_reboot')],
+            ]),
+        );
+    });
+
+    bot.action('confirm_reboot', async (ctx) => {
         try {
             const response = sendCommand('restart', ctx.from.id);
             ctx.reply(response);
@@ -191,13 +199,44 @@ export function setupCommands(bot: Telegraf) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
     });
-    bot.command('shutdown', (ctx) => {
+    bot.action('cancel_reboot', async (ctx) => {
         try {
-            const response = sendCommand('shutdown', ctx.from.id);
+            const response = sendCommand('restart', ctx.from.id);
             ctx.reply(response);
         } catch (error) {
             ctx.reply(error as string, { parse_mode: 'HTML' });
         }
+    });
+
+    bot.command('shutdown', async (ctx) => {
+        await ctx.reply(
+            '⚠️ Are you sure, that you want to shutdown? ⚠️',
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Yes 👍', 'confirm_shutdown')],
+                [Markup.button.callback('No 👎', 'cancel_shutdown')],
+            ]),
+        );
+    });
+    bot.hears('Power Off ⚡', async (ctx) => {
+        await ctx.reply(
+            '⚠️ Are you sure, that you want to shutdown? ⚠️',
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Yes 👍', 'confirm_shutdown')],
+                [Markup.button.callback('No 👎', 'cancel_shutdown')],
+            ]),
+        );
+    });
+    //CONFIRMATION OF SHUTDOWN
+    bot.action('confirm_shutdown', async (ctx) => {
+        try {
+            sendCommand('shutdown', ctx.from!.id);
+            await ctx.editMessageText('✅ Shutting down...');
+        } catch (error) {
+            await ctx.reply(error as string, { parse_mode: 'HTML' });
+        }
+    });
+    bot.action('cancel_shutdown', async (ctx) => {
+        await ctx.editMessageText('❌ Cancelled.');
     });
     //---------------------------------------------------------------------------------------------------------------------
     // COMMANDS FOR PREMIUM USERS ONLY
