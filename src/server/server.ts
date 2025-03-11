@@ -2,8 +2,8 @@ import { notConnected } from '../texts/textForCommands';
 import { screenshotProc } from '../bot/microLogic/screenshotProc';
 
 const clients = new Map<number, any>();
-// console.log(`Starting WebSocket server on port: 8080`);
-console.log(`Starting WebSocket server on port: 3001`);
+console.log(`Starting WebSocket server on port: 8080`);
+// console.log(`Starting WebSocket server on port: 3001`);
 
 Bun.serve({
     fetch(req, server) {
@@ -12,8 +12,8 @@ Bun.serve({
         }
         return new Response('Upgrade failed', { status: 500 });
     },
-    // port: 8080,
-    port: 3001,
+    port: 8080,
+    // port: 3001,
     websocket: {
         message(ws, message) {
             const data = JSON.parse(message.toString());
