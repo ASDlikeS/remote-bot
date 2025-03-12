@@ -4,11 +4,29 @@
 ![Bun](https://img.shields.io/badge/Powered_by-Bun-black?style=for-the-badge&logo=bun)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
-![TelegramBot](image.png)
+![TelegramBot](./images/image.png)
 
 ## 🌟 What is Remote-bot?
 
-Remote-bot transforms your Telegram chat into a command center for your PC! Control your computer from anywhere in the world with simple text commands. Whether you're on vacation or just too comfortable on your couch, remote-bot has you covered.
+Remote-bot transforms your Telegram chat into a command center for your PC! Control your computer from anywhere in the world with simple commands. Whether you're on vacation or just too comfortable on your couch, remote-bot has you covered.
+
+## 💅 Comfortable INTERFACE - APPLICATION
+
+Bot has a lot of buttons for user's comfortable, and easy-links. For example you can change your volume on your PC, in 3 steps...
+
+### EXAMPLE FOR DEBIAN
+
+## 1 STEP: Download remote file
+
+![Downloading](./images/2025-03-12%2023-07-31.gif)
+
+## 2 STEP: Granting execute rights
+
+![CHMOD](./images/2025-03-12%2023-10-13.gif)
+
+## LAST STEP: Have fun 👍!
+
+![RemoteCommands](./images/2025-03-12%2023-11-15.gif)
 
 ## This telegram bot:
 
@@ -22,7 +40,7 @@ Remote-bot transforms your Telegram chat into a command center for your PC! Cont
 -   🚀 **Full Remote Control** - Execute system commands, monitor processes, check resources
 -   💎 **Premium Subscription System** - With real-time countdown timers for premium access
 -   ⚙️ **Smart Permission Management** - Automatic access adjustment when subscriptions expire
--   📊 **Lightweight SQLite Database** - Efficient storage using `bun:sqlite`
+-   📊 **PostgresSQL Database** - Comfortable data base as storage
 -   🔄 **Live Updates** - Dynamic message editing for subscription status - no spam!
 -   🧩 **Modular Design** - Easily extend with your own commands and features
 
@@ -31,6 +49,7 @@ Remote-bot transforms your Telegram chat into a command center for your PC! Cont
 ### Prerequisites
 
 -   📦 [Bun](https://bun.sh/) installed (the speedy Node.js alternative)
+-   ❗ [PostgresSQL](https://www.postgresql.org/) installed (really comfortable for hosting)
 -   🤖 Telegram bot token (get it from [@BotFather](https://t.me/botfather))
 -   🐙 Git installed
 
@@ -45,6 +64,9 @@ cd remote-bot
 
 # Install dependencies at warp speed
 bun install
+
+# Install dependencies from Node.js side
+npm install
 ```
 
 ### Configuration 🛠️
@@ -57,6 +79,8 @@ TELEGRAM_BOT_TOKEN=your_bot_token_here
 ADMIN_ID=your_id_from_telegram
 ```
 
+Be sure, that you have a PostgresSQL
+
 ### Launch Your Bot to the Stars 🚀
 
 ```bash
@@ -68,11 +92,18 @@ bun start
 1. **Start a Chat**: Open Telegram and find your bot
 2. **Say Hello**: Send `/start` to register and see your status
 3. **Take Control**: Use commands like:
+
+    - `/file` - Downloading file for using remote
+    - `/manuals` - How to use remote bot correctly
+    - `/help` - List running processes
+    - `/my_remote` - List remote commands
+    - `/connect` - Checking user connection
     - `/premium` - Check system status
     - `/info_about_premium` - Run a system command
-    - `/help` - List running processes
-    - `/test` - Command for testing
+    - `/contribution` - For you guys... 😅
+
     ***
+
 4. **ADMIN ONLY**: Commands only available to admins
     - `/add_time_usr` - Additional time to a user's subscription
     - `/promote_usr` - Give user premium rights
@@ -85,14 +116,15 @@ Watch as your subscription timer updates in real-time! ⏱️
 ## 💻 Command Examples
 
 ```
-    /close - Close current window
     /restart - Restart your PC
     /shutdown - Shutdown your PC
     /screenshot - Take a screenshot of your desktop
-    /note - Open note file
     /volume {changing volume in proccent %}
-    /kill_process {process name}
-    /set_date {date}
+    /mute - Mute your microphone
+    /unmute - Unmute your microphone
+
+    ✨ #NEW COMMAND IS COMMING SOON ✨
+    /bind - Binding your custom command for your remote💫
 
 ```
 
@@ -106,7 +138,7 @@ Remote-bot loves new friends and contributors!
 
 ## 📝 License
 
-RemoteBot is MIT licensed - free as in freedom! 🦅
+-   **GNU AFFERO GENERAL PUBLIC LICENSE**
 
 ## 🙏 Acknowledgements
 
