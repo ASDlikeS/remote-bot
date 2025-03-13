@@ -6,7 +6,7 @@ export const usingAllowsMiddleware: MiddlewareFn<Context> = async (ctx, next) =>
     try {
         if (ctx && ctx.from) {
             await registerUser(ctx);
-            checkIsBanned(ctx.from.id);
+            await checkIsBanned(ctx.from.id);
         }
         await next();
     } catch (error) {
