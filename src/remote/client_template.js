@@ -96,8 +96,8 @@ const clientId = `CLIENT_ID_PLACEHOLDER`;
 const fs = require('fs');
 
 function connectWebSocket() {
-    const ws = new WebSocket(`wss://remote-bot-production.up.railway.app`);
-    // const ws = new WebSocket('ws://localhost:3001');
+    // const ws = new WebSocket(`wss://remote-bot-production.up.railway.app`);
+    const ws = new WebSocket('ws://localhost:3001');
     ws.on('open', () => {
         console.log('Successfully connected! 🇷🇺');
         ws.send(JSON.stringify({ type: 'register', clientId }));
