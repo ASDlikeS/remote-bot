@@ -7,7 +7,6 @@ import {
     infoAboutPrem,
     helpMessage,
     contribution,
-    myRemoteCommands,
     manual,
     notAllowed,
 } from '../texts/textForCommands';
@@ -16,7 +15,6 @@ import { isConnected, sendCommand } from '../server/server';
 import { splittingCommand } from './conditions/splittingCommand';
 import { buttonFile } from './microLogic/buttonsFIle';
 import { handleRemoteControl } from './appCommands/handleRemote';
-import { assert } from 'console';
 
 export function setupCommands(bot: Telegraf) {
     //---------------------------------------------------------------------------------------------------------------------
